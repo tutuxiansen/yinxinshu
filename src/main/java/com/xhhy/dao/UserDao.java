@@ -23,4 +23,8 @@ public interface UserDao {
 	public List<UserBean> queryCount();
 	//模糊查询
 	public List<UserBean> queryUserByMap(Map key);
+	//添加（后加）
+	public void insertUserRen(UserBean user);
+	//修改（后加）
+	public void updateUserRen(UserBean user);
 }

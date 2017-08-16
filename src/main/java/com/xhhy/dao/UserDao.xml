@@ -18,6 +18,9 @@
 		<result property="userEmail" javaType="String" column="user_email" jdbcType="VARCHAR" />
 		<result property="userAddress" javaType="String" column="user_address" jdbcType="VARCHAR" />
 		<result property="userState" column="user_state" />
+		<result property="userSex" javaType="String" column="user_sex" jdbcType="VARCHAR" />
+		<result property="userTouxiang" javaType="String" column="user_touxiang" jdbcType="VARCHAR" />
+		<result property="userBeizhu" javaType="String" column="user_beizhu" jdbcType="VARCHAR" />
 		<association property="deptBean" javaType="com.xhhy.domain.DeptBean">
 			<id property="deptId" column="dept_id" ></id>
 			<result property="deptName" javaType="String" column="dept_simplicityName" jdbcType="VARCHAR" ></result>
@@ -70,4 +73,14 @@ from user_tb u left join dept_tb d on u.dept_id=d.dept_id left join position_tb 
 			</if>
 		</where> 
 	</select>
+	<!--        添加   ==>后加          -->
+	<insert id="insertUserRen" parameterType="UserBean"
+		useGeneratedKeys="true" keyColumn="user_id" keyProperty="userId">
+		insert into user_tb(user_name,user_sex,user_idCard,user_phone,user_email,user_touxiang,user_beizhu,user_state)
+		values(#{userName},#{userSex},#{userIdCard},#{userPhone},#{userEmail},#{userTouxiang},#{userBeizhu},1)
+	</insert>
+	<!--        修改   ==>后加          -->
+	<update id="updateUserRen" parameterType="UserBean">
+		update user_tb user_name = #{userName},user_sex=#{userSex},user_idCard = #{userIdCard},user_phone = #{userPhone},user_email = #{userEmail},user_touxiang=#{userTouxiang},user_beizhu=#{userBeizhu} where user_id = #{userId}
+	</update>
 </mapper>

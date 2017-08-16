@@ -29,55 +29,58 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div></div>
 
         <div style="font-size: 13px;margin: 10px 5px">
-            <form action="./admin.php?c=goods&a=add" method="post" enctype="multipart/form-data">
+            <form action="px/updateRen.do" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="userId" value="${sessionScope.loginUser.userId}">
             <table border="1" width="100%" class="table_a">
                 <tr>
                     <td width="120px">姓名</td>
                     <td>
-						<input type="text" name="f_goods_name" />
+						<input type="text" name="userName" value="${sessionScope.loginUser.userName }" />
 					</td>
                 </tr>
                 <tr>
                     <td>性别</td>
                     <td>
-                       	<input type="radio" name="sex" checked value="1"/>男 <input type="radio" name="sex" value="0"/>女 
+                       	<input type="radio" name="userSex" checked
+						value="${sessionScope.loginUser.userSex}" />男 <input type="radio"
+						name="userSex" value="${sessionScope.userSex }" />女</td>
                     </td>
                 </tr>
               
                 <tr>
                     <td>身份证号：</td>
                     <td>
-						<input type="text" name="f_goods_name" />
+						<input type="text" name="userIdCard"  value="${sessionScope.loginUser.userIdCard}"/>
 					</td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td>办公电话：</td>
                     <td>
-						<input type="text" name="f_goods_name" />
+						<input type="text" name="" />
 					</td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td>手机：</td>
                     <td>
-                       	<input type="text" name="f_goods_name" />
+                       	<input type="text" name="userPhone" value="${sessionScope.loginUser.userPhone}"/>
                     </td>
                 </tr>
 				<tr>
                     <td>邮箱：</td>
                     <td>
-                        	<input type="text" name="f_goods_name" />
+                        	<input type="text" name="userEmail" value="${sessionScope.loginUser.userEmail}"/>
                     </td>
                 </tr>
 				<tr>
                     <td>更换头像：</td>
                     <td>
-						<input type="file" name="f_goods_image" />
+						<input type="file" name="userTouxiang" />
 					</td>
                 </tr>
 				<tr>
                     <td>备注：</td>
                     <td>
-                        <textarea name="f_goods_introduce"></textarea>
+                        <textarea name="userBeizhu"></textarea>
                     </td>
                 </tr>
                 

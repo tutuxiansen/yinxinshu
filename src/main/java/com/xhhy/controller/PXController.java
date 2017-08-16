@@ -22,7 +22,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.github.pagehelper.Page;
 import com.xhhy.dao.PXDao;
 import com.xhhy.domain.PXBean;
+import com.xhhy.domain.UserBean;
 import com.xhhy.service.PXService;
+import com.xhhy.service.UserService;
 import com.xhhy.util.FileNameUtils;
 import com.xhhy.util.PageUtil;
 
@@ -31,6 +33,7 @@ import com.xhhy.util.PageUtil;
 public class PXController {
 	@Autowired
 	private PXService pXService;
+	private UserService userService;
 
 	public PXService getpXService() {
 		return pXService;
@@ -278,7 +281,14 @@ public class PXController {
 					return mav;
 				}
 //============================个人信息==============================================
-				
+		//修改
+		@RequestMapping("updateRen.do")
+		public ModelAndView updateRen(@ModelAttribute UserBean user){
+			userService.updateUserRen(user);
+			ModelAndView mav = new ModelAndView("/index.jsp");
+			mav.addObject("user",user);
+			return mav;
+		}		
 	
 				
 				

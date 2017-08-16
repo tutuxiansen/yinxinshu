@@ -19,10 +19,10 @@
 			<id property="deptId" column="dept_id" ></id>
 			<result property="deptName" javaType="String" column="dept_simplicityName" jdbcType="VARCHAR" ></result>
 		</association>
-		<!-- <collection property="menuBean" ofType="com.xhhy.domain.MenuBean">
+		<collection property="menuBean" ofType="com.xhhy.domain.MenuBean">
 			<id property="menuId" column="menu_id" ></id>
 			<result property="menuName" javaType="String" column="menu_name" jdbcType="VARCHAR" ></result>
-		</collection> -->
+		</collection>
 	</resultMap>
 	<sql id="my_sql">
 		select p.position_id,p.position_code,p.position_name,p.position_class,p.position_describe,p.position_remark,p.position_state,d.dept_simplicityName,d.dept_id,m.menu_name,m.menu_id from position_tb p left 

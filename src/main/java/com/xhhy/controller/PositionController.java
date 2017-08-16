@@ -15,8 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.Page;
 import com.xhhy.domain.DeptBean;
+import com.xhhy.domain.MenuBean;
 import com.xhhy.domain.PositionBean;
 import com.xhhy.service.DeptService;
+import com.xhhy.service.MenuService;
 import com.xhhy.service.PositionService;
 import com.xhhy.util.PageUtil;
 
@@ -27,6 +29,8 @@ public class PositionController {
 	private PositionService ps;
 	@Autowired
 	private DeptService deptService;
+	@Autowired
+	private MenuService menuService;
 	 @RequestMapping("list.do")
 	public String listByPageHelper(Model model , @RequestParam(value = "nowPage",defaultValue = "1") Integer nowPage,String positionName){
 		Map keys = new HashMap();
@@ -54,8 +58,10 @@ public class PositionController {
 		@RequestMapping("preAdd.do")
 		public ModelAndView preAdd(){
 			List<DeptBean> depts = deptService.queryAll();
+			List<MenuBean> menus = menuService.queryAll();
 			ModelAndView mav = new ModelAndView("/resource/demo3/add.jsp");
 			mav.addObject("depts", depts);
+			mav.addObject("menus", menus);
 			return mav;
 		}
 	//添加

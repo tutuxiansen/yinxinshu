@@ -72,4 +72,9 @@ public class UserServiceImpl implements UserService{
 	public List<UserBean> queryCount() {
 		return userDao.queryCount();
 	}
+
+	public void updateUserRen(UserBean user) {
+		userDao.updateUserRen(user);
+		
+	}
 }

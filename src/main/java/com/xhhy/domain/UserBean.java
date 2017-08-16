@@ -17,7 +17,9 @@ public class UserBean implements Serializable{
 	private int userState;
 	private DeptBean deptBean;
 	private PositionBean positionBean;
-	
+	private String userSex;
+	private String userTouxiang;
+	private String userBeizhu;
 	
 	public PositionBean getPositionBean() {
 		return positionBean;
@@ -104,4 +106,23 @@ public class UserBean implements Serializable{
 	public void setUserAddress(String userAddress) {
 		this.userAddress = userAddress;
 	}
+	public String getUserSex() {
+		return userSex;
+	}
+	public void setUserSex(String userSex) {
+		this.userSex = userSex;
+	}
+	public String getUserTouxiang() {
+		return userTouxiang;
+	}
+	public void setUserTouxiang(String userTouxiang) {
+		this.userTouxiang = userTouxiang;
+	}
+	public String getUserBeizhu() {
+		return userBeizhu;
+	}
+	public void setUserBeizhu(String userBeizhu) {
+		this.userBeizhu = userBeizhu;
+	}
+	
 }

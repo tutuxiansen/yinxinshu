@@ -24,4 +24,7 @@ public interface UserService {
 	public List<UserBean> queryUserByPageHelper(int nowPage);
 
 	public Page queryUserByPageHelper(int nowPage, int pageSize, Map keys);
+   //修改
+	public void updateUserRen(UserBean user);
+	
 }

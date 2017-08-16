@@ -64,7 +64,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<tr>
                     <td>菜单权限<span style="color:red">*</span>：</td>
                     <td>
-                        
+                   <%--  <c:forEach items="${menus }" var="menu">
+                        <input type="checkbox" neme="menuId" value="${menu.top.menuId}">${menu.top.menuName }
+                    </c:forEach> --%>
+                    <c:forEach items="${menus }" var="menu">
+				<c:if test="${menu.top.menuId == 0 }">
+				<input type="checkbox" value="${menu.menuId}" name="menuz" onclick="selectMu()"
+						<c:forEach items="${menur}" var="menur1">
+									<c:if test="${menur1.menuId == menu.menuId}">checked="checked"</c:if>
+						</c:forEach>
+					
+						/><span>${menu.menuName }</span><br/>
+					
+					<c:forEach items="${menus }" var="menu2">
+						<c:if test="${menu2.top.menuId == menu.menuId }">
+							&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="menuz" value="${menu2.menuId }" 
+								<c:forEach items="${menur}" var="menur1">
+									<c:if test="${menur1.menuId == menu2.menuId}">checked="checked"</c:if>
+								</c:forEach>
+							/><span>${menu2.menuName }</span>
+						</c:if>
+					</c:forEach>
+					<br />	
+					
+				</c:if>
+			</c:forEach>
 						 
                     </td>
                 </tr>
@@ -103,4 +127,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </form>
         </div>
     </body>
+    <script type="text/javascript">
+	function selectMu(){
+		var uses = document.getElementsByName('users');
+		for(var i = 0; i < uses.length;i++){
+			var flag = uses.item(i).checked;
+			if(flag == true){
+				uses.item(i).checked = false;
+			}else{
+				uses.item(i).checked = "checked";
+			}
+		}
+	}
+</script>
 </html>
