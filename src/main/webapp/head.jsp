@@ -21,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					银杏树信息技术服务(北京)有限公司
 				</td>
                 <td style="font-weight: bold; color: #fff; padding-top: 20px" 
-                    align=middle>当前用户：${sessionScope.loginUser.uuName} &nbsp;&nbsp; 
+                    align=middle>当前用户：${sessionScope.loginUser.userName} &nbsp;&nbsp; 
 					<a style="color: #fff"  href="/yinxinshu/password.jsp"  target=main>修改口令</a> 
 					&nbsp;&nbsp; 
 					<a style="color: #fff"  href="/yinxinshu/logint.jsp" target=_top>退出系统</a> 

@@ -29,8 +29,8 @@ public class LoginServiceImpl implements LoginService {
 		this.loginDao = loginDao;
 	}
 
-	public UserBean queryByuserName(String username) {
-		return loginDao.queryByuserName(username);
+	public UserBean queryByuserName(String userUserName) {
+		return loginDao.queryByuserName(userUserName);
 	}
 
 	

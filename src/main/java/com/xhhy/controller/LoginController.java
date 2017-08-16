@@ -84,8 +84,8 @@ public class LoginController {
 //全部查询
 	@RequestMapping("queryUser.do")
 	public ModelAndView queryUser(HttpServletRequest request, HttpServletResponse response,
-		String username,String password,String remeber) throws Exception{
-		System.out.println(username);
+		String userUserName,String userPassWord,String remeber) throws Exception{
+		System.out.println(userUserName);
 		//获取验证码内容
 				String code = "";
 				String loginval = request.getParameter("loginval");
@@ -96,24 +96,28 @@ public class LoginController {
 					   code = cookie.getValue();
 					}
 				}
+				int count=0;
+				count++;
+				HttpSession session = request.getSession();
+				session.setAttribute("count", count);
 				if(code.toLowerCase().equals(loginval.toLowerCase())){
 					System.out.println("验证码验证成功");
 					@SuppressWarnings("rawtypes")
 					Map map = new HashMap();
-					map.put("username", username);
-					map.put("password", password);
+					map.put("userUserName", userUserName);
+					map.put("userPassWord", userPassWord);
 					UserBean user = loginService.queryUser(map);
-			
+					
 					
 					/*List<MenuBean> menus = userService.login_menus(user.getRole().getRole_id());*/
 					if(user!=null/*&& user.getRole().getRole_sort()!= 0*/){
 						System.out.println("登录成功");
-						
+						/*count=count+1;*/
 						if("1".equals(remeber)){
 						
 							//勾选 , 创建Cookie
-							Cookie cookie1 = new Cookie("username",username);
-							Cookie cookie2 = new Cookie("password",password);
+							Cookie cookie1 = new Cookie("userUserName",userUserName);
+							Cookie cookie2 = new Cookie("userPassWord",userPassWord);
 							cookie1.setPath("/login");
 							cookie1.setMaxAge(7 * 24 * 60 * 60);
 							cookie2.setPath("/login");
@@ -121,10 +125,11 @@ public class LoginController {
 							response.addCookie(cookie1);
 							response.addCookie(cookie2);
 						}
-						// 保存登录人信息到 session
-						HttpSession session = request.getSession();
-						session.setAttribute("loginUser", user);
 						
+						// 保存登录人信息到 session
+						/*HttpSession*/ session = request.getSession();
+						session.setAttribute("loginUser", user);
+						session.setAttribute("count", count);
 						// 登录成功 需要持久化Cookie 写到Cookie的时候需要大写（URL重写的时候小写的）
 						Cookie cookie = new Cookie("JSESSIONID",session.getId());
 						cookie.setMaxAge(30*60);// cookie的持久化时间 为 30分

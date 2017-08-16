@@ -2,31 +2,48 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xhhy.dao.LoginDao">
+
 <!-- 配置映射关系 -->
 	<resultMap type="com.xhhy.domain.UserBean" id="user">
-		<id column="userid"   property="userId" />
-		<result column="username" javaType="String" property="userName" jdbcType="VARCHAR"/>
-		<result column="passwords"   javaType="String" property="passWord"  jdbcType="VARCHAR"/>
-		<result column="uuname" javaType="String" property="uuName" jdbcType="VARCHAR"/>
+		<id property="userId" column="user_id" />
+		<result property="userCode" javaType="String" column="user_code" jdbcType="VARCHAR" />
+		<result property="userUserName" javaType="String" column="user_username" jdbcType="VARCHAR"/>
+		<result property="userPassWord" javaType="String" column="user_password" jdbcType="VARCHAR" />
+		<result property="deptId" column="dept_id" />
+		<result property="positionId" column="position_id" />
+		<result property="userName" javaType="String" column="user_name" jdbcType="VARCHAR" />
+		<result property="userIdCard" javaType="String" column="user_idCard" jdbcType="VARCHAR" />
+		<result property="userPhone" column="user_phone" />
+		<result property="userEmail" javaType="String" column="user_email" jdbcType="VARCHAR" />
+		<result property="userAddress" javaType="String" column="user_address" jdbcType="VARCHAR" />
+		<result property="userState" column="user_state" />
+		<association property="deptBean" javaType="com.xhhy.domain.DeptBean">
+			<id property="deptId" column="dept_id" ></id>
+			<result property="deptName" javaType="String" column="dept_simplicityName" jdbcType="VARCHAR" ></result>
+		</association>
+		<association property="positionBean" javaType="com.xhhy.domain.PositionBean">
+			<id property="positionId" column="position_id" ></id>
+			<result property="positionName" javaType="String" column="position_name" jdbcType="VARCHAR" ></result>
+		</association>
 	</resultMap>
 
 	<!-- 映射到UserDao的方法 -->
 	<select id="queryUser" parameterType="Map"  resultMap="user">
-		 select * from users_tb
+		 select * from user_tb
 		 where 1 = 1
-		 <if test="username != null and username != ''">
-				and username= #{username}
+		 <if test="userUserName != null and userUserName != ''">
+				and user_username= #{userUserName}
 			</if>
-			<if test="password != null and password !=''">
-				and passwords =#{password}
+			<if test="userPassWord != null and userPassWord !=''">
+				and user_password =#{userPassWord}
 			</if> 
 	</select>
 	
 		<select id="queryByuserName" parameterType="Map"  resultMap="user">
-		 select * from users_tb
+		 select * from user_tb
 		 where 1 = 1
-		 <if test="username != null and username != ''">
-				and username= #{username}
+		 <if test="userUserName != null and userUserName != ''">
+				and user_username= #{userUserName}
 			</if>
 	</select>
 	

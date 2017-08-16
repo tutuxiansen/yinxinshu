@@ -9,5 +9,5 @@ public interface LoginService {
 	//查询用户名和密码
 	public UserBean queryUser(Map map);
 	//通过账号获得个人信息
-	public UserBean queryByuserName(String username);
+	public UserBean queryByuserName(String userUserName);
 }

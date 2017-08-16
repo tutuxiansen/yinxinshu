@@ -53,7 +53,7 @@ function getNowTime(){
                          </td>
 						</tr>
                         <tr>
-                            <td style="font-weight: bold; font-size: 16px">${sessionScope.loginUser.uuName}</td>
+                            <td style="font-weight: bold; font-size: 16px">${sessionScope.loginUser.userName}</td>
 						</tr>
                         <tr>
                             <td>欢迎进入网站管理中心！</td></tr></table></td>
@@ -73,17 +73,18 @@ function getNowTime(){
         <table cellspacing=0 cellpadding=2 width="95%" align=center border=0>
             <tr>
                 <td align=right width=100>登陆帐号：</td>
-                <td style="color: #880000">${sessionScope.loginUser.userName}</td></tr>
+                <td style="color: #880000">${sessionScope.loginUser.userUserName}</td></tr>
             <tr>
                 <td align=right>真实姓名：</td>
-                <td style="color: #880000">${sessionScope.loginUser.uuName}</td></tr>
+                <td style="color: #880000">${sessionScope.loginUser.userName}</td></tr>
             <tr>
                 <td align=right>注册时间：</td>
                 <td style="color: #880000"><% out.print(new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date())); %></td></tr>
             <tr>
                 <tr>
                 <td align=right>登陆次数：</td>
-                <td style="color: #880000">58</td></tr>
+                <td style="color: #880000">${sessionScope.count}</td></tr>
+
             <tr>
             <tr>
                 <td align=right>上线时间：</td>

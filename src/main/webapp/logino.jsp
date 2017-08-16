@@ -36,7 +36,7 @@
 				ckname.innerHTML="请输入用户名";
 			}
 			function cknameMessage(){
-				var input=document.getElementById("username");
+				var input=document.getElementById("userUserName");
 				var ckname=document.getElementById("ckname");
 				var t=/^[A-Za-z]{6,12}$/;
 				if(t.test(input.value)){
@@ -133,8 +133,8 @@
 			onsubmit="return gos()">
 			<div class="loginbox">
 				<ul>
-					<li><input name="username" type="text" class="loginuser"
-						id="username" value="${cookie.username.value }"
+					<li><input name="userUserName" type="text" class="loginuser"
+						id="userUserName" value="${cookie.userUserName.value }"
 						onfocus="messages()" onblur="cknameMessage()" /><span
 						style="position: absolute; left:540px;top:95px;" id="ckname"></span>
 					</li>
@@ -154,7 +154,7 @@
 						<label> <input type="checkbox" id="remember"
 							name="remeber" value="1"
 							style="position: absolute; left:425px;top:245px;"
-							<c:if test="${cookie.username.value != null	 }">checked="checked"</c:if> /><span
+							<c:if test="${cookie.userUserName.value != null	 }">checked="checked"</c:if> /><span
 							style="position: absolute; left:455px;top:242px;">记住密码</span> </label></li>
 
 				</ul>
