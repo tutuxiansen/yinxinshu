@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+       
+<mapper namespace="com.xhhy.dao.HeadQuaetersDao">
+	
+	<sql id="all">
+		data_id,change_year,change_month,change_type,dept_name,dept_change
+	</sql>
+	
+	<resultMap id="head" type="com.xhhy.domain.HeadQuaetersBean">
+		<id property = "dataId" column = "data_id"/>
+		<result property = "changeYear" column = "change_year"/>
+		<result property = "changeMonth" column = "change_month"/>
+		<result property = "changeType" column = "change_type"/>
+		<result property = "deptName" column = "dept_name"/>
+		<result property = "deptChange" column = "dept_change"/>
+	</resultMap>
+
+
+	<select id="queryAll" resultType="Map">
+		select change_year as "year",
+		   sum(case when dept_name = '教育产品发展本部' and change_type = '入职' then 1 else 0 end) as "BENBURZ",
+		   sum(case when dept_name = '职业教育研究院' and change_type = '入职' then 1 else 0 end) as "YANJYRZ",
+		   sum(case when dept_name = '教育产品发展本部' and change_type = '转正' then 1 else 0 end) as "BENBUZZ",
+		   sum(case when dept_name = '职业教育研究院' and change_type = '转正' then 1 else 0 end) as "YANJYZZ",
+		   sum(case when dept_name = '教育产品发展本部' and change_type = '调薪' then 1 else 0 end) as "BENBUTX",
+		   sum(case when dept_name = '职业教育研究院' and change_type = '调薪' then 1 else 0 end) as "YANJYTX",
+		   sum(case when dept_name = '教育产品发展本部' and change_type = '续签' then 1 else 0 end) as "BENBUXQ",
+		   sum(case when dept_name = '职业教育研究院' and change_type = '续签' then 1 else 0 end) as "YANJYXQ",
+		   sum(case when dept_name = '教育产品发展本部' and change_type = '调岗' then 1 else 0 end) as "BENBUTG",
+		   sum(case when dept_name = '职业教育研究院部' and change_type = '调岗' then 1 else 0 end) as "YANJYTG",
+		   sum(case when dept_name = '教育产品发展本部' and change_type = '离职' then 1 else 0 end) as "BENBULZ",
+		   sum(case when dept_name = '职业教育研究院' and change_type = '离职' then 1 else 0 end) as "YANJYLZ",
+		   sum(case when dept_name = '教育产品发展本部' and change_type = '其他变更' then 1 else 0 end) as "BENBUQT",
+		   sum(case when dept_name = '职业教育研究院' and change_type = '其他变更' then 1 else 0 end) as "YANJYQT"
+       from emp_headquarters_tb 
+       <if test="year != 0 and year != null and year != ''.toString()">
+			where change_year = ${year}
+		</if>
+       group by  change_year 
+       order by change_year
+       
+	</select>
+	
+	<select id="queryAllByYear" parameterType="map" resultMap="head">
+		select 
+			<include refid="all"/>
+		from emp_headquarters_tb where change_year = #{year}
+	</select>
+	
+
+</mapper>

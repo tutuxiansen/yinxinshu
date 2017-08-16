@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须为对应的Dao的接口名 -->
+<mapper namespace="com.xhhy.dao.UserDao">
+
+	<!-- 配置映射关系 -->
+	<resultMap type="com.xhhy.domain.UserBean" id="user">
+		<id property="userId" column="user_id" />
+		<result property="userCode" javaType="String" column="user_code" jdbcType="VARCHAR" />
+		<result property="userUserName" javaType="String" column="user_username" jdbcType="VARCHAR"/>
+		<result property="userPassWord" javaType="String" column="user_password" jdbcType="VARCHAR" />
+		<result property="deptId" column="dept_id" />
+		<result property="positionId" column="position_id" />
+		<result property="userName" javaType="String" column="user_name" jdbcType="VARCHAR" />
+		<result property="userIdCard" javaType="String" column="user_idCard" jdbcType="VARCHAR" />
+		<result property="userPhone" column="user_phone" />
+		<result property="userEmail" javaType="String" column="user_email" jdbcType="VARCHAR" />
+		<result property="userAddress" javaType="String" column="user_address" jdbcType="VARCHAR" />
+		<result property="userState" column="user_state" />
+		<association property="deptBean" javaType="com.xhhy.domain.DeptBean">
+			<id property="deptId" column="dept_id" ></id>
+			<result property="deptName" javaType="String" column="dept_simplicityName" jdbcType="VARCHAR" ></result>
+		</association>
+		<association property="positionBean" javaType="com.xhhy.domain.PositionBean">
+			<id property="positionId" column="position_id" ></id>
+			<result property="positionName" javaType="String" column="position_name" jdbcType="VARCHAR" ></result>
+		</association>
+	</resultMap>
+	<sql id="my_sql">
+		select
+u.user_id,u.user_code,u.user_username,u.user_password,d.dept_simplicityName,d.dept_id,p.position_name,p.position_id,u.user_name,u.user_idCard,u.user_phone,u.user_email,u.user_address
+from user_tb u left join dept_tb d on u.dept_id=d.dept_id left join position_tb p on u.position_id = p.position_id
+	</sql>
+	<!-- insert、update、delete、select这些标签，都有id标识，这些id标识一定要映射到对应的Dao的方法名 -->
+	<!-- 映射到UserDao的方法 -->
+	<insert id="insertUser" parameterType="UserBean"
+		useGeneratedKeys="true" keyColumn="user_id" keyProperty="userId">
+		insert into
+		user_tb
+		(user_code,user_username,user_password,dept_id,position_id,user_name,user_idCard,user_phone,user_email,user_address,user_state)
+		values(#{userCode,jdbcType=VARCHAR},#{userUserName,jdbcType=VARCHAR},#{userPassWord,jdbcType=VARCHAR},#{deptId},#{positionId},#{userName,jdbcType=VARCHAR},#{userIdCard,jdbcType=VARCHAR},#{userPhone},#{userEmail,jdbcType=VARCHAR},#{userAddress,jdbcType=VARCHAR},1)
+	</insert>
+
+	<update id="updateUser" parameterType="UserBean">
+		update user_tb set user_code = #{userCode,jdbcType=VARCHAR},user_username = #{userUserName,jdbcType=VARCHAR},user_password = #{userPassWord,jdbcType=VARCHAR},dept_id = #{deptId},position_id = #{positionId},user_name = #{userName,jdbcType=VARCHAR},user_idCard = #{userIdCard,jdbcType=VARCHAR},user_phone = #{userPhone},user_email = #{userEmail,jdbcType=VARCHAR},user_address = #{userAddress,jdbcType=VARCHAR} where user_id = #{userId}
+	</update>
+
+	<delete id="deleteUser" parameterType="int">
+		update user_tb set user_state = 2 
+		where user_id = #{id}
+	</delete>
+
+	<select id="queryUserById" parameterType="int" resultMap="user">
+		<include refid="my_sql"></include>
+			<where>
+		 				u.user_id = #{userId}
+			</where>
+	</select>
+	
+	<select id="queryAll" resultMap="user">
+		<include refid="my_sql"></include>
+	</select>
+	
+	<select id="queryUserByMap" parameterType="map" resultMap="user">
+		<include refid="my_sql"></include>
+		<where>
+			<if test="userName != null and userName != ''">
+				u.user_name like '%${userName}%' and u.user_state = 1
+			</if>
+		</where> 
+	</select>
+</mapper>

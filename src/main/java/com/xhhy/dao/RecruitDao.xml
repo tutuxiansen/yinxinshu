@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须为对应的Dao的接口名 -->
+<mapper namespace="com.xhhy.dao.RecruitDao">
+
+	<!-- 配置映射关系 -->
+	<resultMap type="com.xhhy.domain.RecruitBean" id="recruit">
+		<id property="recruitId" column="recruit_id" />
+		<!-- <result property="recruitDept" column="recruit_dept_id" /> -->
+		<result property="recruitType" column="recruit_type" />
+		<result property="recruitNum" column="recruit_num" />
+		<result property="recruitName" javaType="String" column="recruit_name" jdbcType="VARCHAR" />
+		<result property="recruitCode" javaType="String" column="recruit_code" jdbcType="VARCHAR"/>
+		<result property="recruitClass" javaType="String" column="recruit_class" jdbcType="VARCHAR"/>
+		<result property="recruitReg" javaType="String" column="recruit_reg" jdbcType="VARCHAR"/>
+		<result property="recruitStarttime" javaType="DATE" column="recruit_starttime" jdbcType="DATE"/>
+		<result property="recruitDeadline" javaType="DATE" column="recruit_deadline" jdbcType="DATE"/>
+		<result property="recruitDescribe" javaType="String" column="recruit_describe" jdbcType="VARCHAR"/>
+		<result property="recruitRement" javaType="String" column="recruit_requirement" jdbcType="VARCHAR"/>
+		<result property="recruitLjsc" column="recruit_ljsc" />
+	</resultMap>
+	
+	<sql id="my_sql">
+		select
+		recruit_id,recruit_type,recruit_num,recruit_name,recruit_code,recruit_class,recruit_reg,
+		recruit_starttime,recruit_deadline,recruit_describe,recruit_requirement,recruit_ljsc
+		from recruit_tb
+	</sql>
+	<!-- insert、update、delete、select这些标签，都有id标识，这些id标识一定要映射到对应的Dao的方法名 -->
+	<!-- 映射到UserDao的方法 -->
+	<insert id="insertRecruit" parameterType="RecruitBean">
+		insert into recruit_tb
+		(recruit_type,recruit_num,recruit_name,recruit_code,recruit_class,recruit_reg,
+		recruit_starttime,recruit_deadline,recruit_describe,recruit_requirement,recruit_ljsc)
+		values
+		(#{recruitType},#{recruitNum},#{recruitName,jdbcType=VARCHAR},#{recruitCode,jdbcType=VARCHAR},#{recruitClass,jdbcType=VARCHAR},
+		#{recruitReg,jdbcType=VARCHAR},#{recruitStarttime,jdbcType=DATE},#{recruitDeadline,jdbcType=DATE},#{recruitDescribe,jdbcType=VARCHAR},#{recruitRement,jdbcType=VARCHAR},1)
+	</insert>
+	
+	<update id="updateRecruit" parameterType="RecruitBean">
+		update recruit_tb set
+		<!-- recruit_dept_id=#{recuitDept} -->recruit_type=#{recruitType},recruit_num=#{recruitNum},recruit_name=#{recruitName,jdbcType=VARCHAR},
+		recruit_code=#{recruitCode,jdbcType=VARCHAR},recruit_class=#{recruitClass,jdbcType=VARCHAR},recruit_reg=#{recruitReg,jdbcType=VARCHAR},
+		recruit_starttime=#{recruitStarttime,jdbcType=DATE},recruit_deadline=#{recruitDeadline,jdbcType=DATE},recruit_describe=#{recruitDescribe,jdbcType=VARCHAR},
+		recruit_requirement=#{recruitRement,jdbcType=VARCHAR},recruit_ljsc=1
+		where recruit_id= #{recruitId} 
+	</update>
+	
+	<update id="deleteByljsc" parameterType="int">
+		update recruit_tb set recruit_ljsc=0 where recruit_id= #{id}
+	</update>
+	
+	<delete id="deleteRecruit" parameterType="int">
+		delete from recruit_tb where recruit_id=#{recruitId}
+	</delete>
+	
+	<select id="queryRecruitById" parameterType="int" resultMap="recruit">
+		<include refid="my_sql"></include>
+			where recruit_id=#{id}
+	</select>
+	
+	<select id="queryRecruitAll" resultMap="recruit">
+		<include refid="my_sql"></include>
+				where recruit_ljsc=1
+		<where>
+			<if test="recruit_name != null and recruit_name !=''">
+				recruit_name like "%#{recruitName}%"
+			</if>
+			<if test="recruit_class != null and recruit_class !=''">
+				 and recruit_name like "%#{recruitClass}%"
+			</if>
+			<if test="recruit_starttime != null and recruit_starttime !=''">
+				  and recruit_name like "%#{recruitStarttime}%"
+			</if>
+			<if test="recruit_deadline != null and recruit_deadline !=''">
+				  and recruit_name like "%#{recruitDeadline}%"
+			</if>
+					
+		</where>
+	</select>
+</mapper>

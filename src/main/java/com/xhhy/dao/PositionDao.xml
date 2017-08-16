@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须为对应的Dao的接口名 -->
+<mapper namespace="com.xhhy.dao.PositionDao">
+
+	<!-- 配置映射关系 -->
+	<resultMap type="com.xhhy.domain.PositionBean" id="ps">
+		<id property="positionId" column="position_id" />
+		<result property="positionCode" javaType="String" column="position_code" jdbcType="VARCHAR" />
+		<result property="positionName" javaType="String" column="position_name" jdbcType="VARCHAR"  />
+		<result property="positionClass"  column="position_class"  />
+		<result property="deptId"  column="dept_id" />
+		<result property="menuId"  column="menu_id" />
+		<result property="positionDescribe" javaType="String" column="position_describe" jdbcType="VARCHAR" />
+		<result property="positionRemark" javaType="String" column="position_remark" jdbcType="VARCHAR" />
+		<result property="positionState" column="position_state" />
+		<association property="deptBean" javaType="com.xhhy.domain.DeptBean">
+			<id property="deptId" column="dept_id" ></id>
+			<result property="deptName" javaType="String" column="dept_simplicityName" jdbcType="VARCHAR" ></result>
+		</association>
+		<!-- <collection property="menuBean" ofType="com.xhhy.domain.MenuBean">
+			<id property="menuId" column="menu_id" ></id>
+			<result property="menuName" javaType="String" column="menu_name" jdbcType="VARCHAR" ></result>
+		</collection> -->
+	</resultMap>
+	<sql id="my_sql">
+		select p.position_id,p.position_code,p.position_name,p.position_class,p.position_describe,p.position_remark,p.position_state,d.dept_simplicityName,d.dept_id,m.menu_name,m.menu_id from position_tb p left 
+join dept_tb d on p.dept_id = d.dept_id left join menu_tb m on p.menu_id = m.menu_id
+	</sql>
+	<!-- insert、update、delete、select这些标签，都有id标识，这些id标识一定要映射到对应的Dao的方法名 -->
+	<!-- 映射到UserDao的方法 -->
+	<insert id="add" parameterType="PositionBean"
+		useGeneratedKeys="true" keyColumn="position_id" keyProperty="positionId">
+		insert into
+		position_tb
+		(position_code,position_name,position_class,dept_id,menu_id,position_describe,position_remark,position_state)
+		values(#{positionCode,jdbcType=VARCHAR},#{positionName,jdbcType=VARCHAR},#{positionClass},#{deptId},#{menuId},#{positionDescribe,jdbcType=VARCHAR},#{positionRemark,jdbcType=VARCHAR},#{positionState})
+	</insert>
+
+	<update id="update" parameterType="PositionBean">
+		update position_tb set
+		position_code = #{positionCode,jdbcType=VARCHAR},position_name = #{positionName,jdbcType=VARCHAR},position_class = #{positionClass},dept_Id = #{deptId},menu_Id = #{menuId},position_describe = #{positionDescribe,jdbcType=VARCHAR},position_remark = #{positionRemark,jdbcType=VARCHAR},position_state = #{positionState}
+		where position_id = #{positionId}
+	</update>
+
+	<!-- <delete id="delete" parameterType="int">
+		update Position_tb set Position_state = 2 
+		where Position_id = #{PositionId}
+	</delete> -->
+
+	<select id="queryById" parameterType="int" resultMap="ps">
+		<include refid="my_sql"></include>
+			<where>
+		 				p.position_id = #{positionId}
+			</where>
+	</select>
+	<select id="queryAll" resultMap="ps">
+		<include refid="my_sql"></include>
+	</select>
+	<select id="queryByMap" parameterType="map" resultMap="ps">
+		<include refid="my_sql"></include>
+		<where>
+			<if test="positionName != null and positionName != ''">
+				p.position_name like '%${positionName}%' 
+			</if>
+		</where> 
+	</select>
+</mapper>

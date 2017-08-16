@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhhy.dao.SalmanagerDao">
+
+	<!-- 配置映射关系 -->
+	<resultMap type="com.xhhy.domain.SalmanagerBean" id="salmanager">
+		<id column="sal_manager_id"   property="managerId" />
+		<result column="sal_code" javaType="String" property="salCode" jdbcType="VARCHAR"/>
+		<result column="sal_type"   javaType="String" property="salType"  jdbcType="VARCHAR"/>
+		<result column="sal_audit_state"   property="auditState" />
+		<result column="sal_audit_time"   javaType="String" property="auditTime" jdbcType="VARCHAR" />
+		<result column="sal_make_people"   javaType="String" property="makePeople" jdbcType="VARCHAR"/>
+		<result column="sal_login_people"   javaType="String" property="loginPeole" jdbcType="VARCHAR" />
+		<result column="sal_base"  property="salBase" />
+		<result column="sal_bonus_money"  property="bonusMoney" />
+		<result column="sal_traffic_money"  property="trafficMoney" />
+		<result column="sal_call_money"  property="callMoney" />
+		<result column="sal_eat_money"  property="eatMoney" />
+		<result column="sal_house_money"  property="houseMoney" />
+		<result column="sal_workout_money"  property="workoutMoney" />
+		<result column="sal_overtime_money"  property="overtimeMoney" />
+		<result column="sal_sum_money"  property="sumMoney" />
+		<result column="sal_remarks"  javaType="String" property="salRemarks" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="my_sql">
+	
+		select sal_manager_id,sal_code,sal_type,sal_audit_state,sal_audit_time,sal_make_people,sal_login_people,
+		
+		sal_base,sal_bonus_money,sal_traffic_money,sal_call_money,sal_eat_money,sal_house_money,sal_workout_money,
+		
+		sal_overtime_money,sal_sum_money,sal_remarks from Salary_Manager
+	
+	</sql>
+
+	<!-- 映射到UserDao的方法 -->
+	<select id="queryAll" resultMap="salmanager">
+		 <include refid="my_sql"></include> 
+	</select>
+	
+	<!-- //分页查询 -->
+	<select id="queryUserByMap" parameterType="map" resultMap="salmanager">
+		<include refid="my_sql"></include>
+		<where>
+			<if test="salType != null and salType != ''">
+				<!-- sal_type like "%"#{salType}"%" -->
+				sal_type like '%${salType}%'
+			</if>
+			<if test="auditState != null and auditState !=''and auditState !=0">
+				and sal_audit_state =#{auditState}
+			</if>
+		</where>
+				order by sal_manager_id asc
+	</select>
+	<!--插入数据  -->
+	<insert id="insertUser" parameterType="SalmanagerBean">
+		
+		insert into Salary_Manager
+		
+		(sal_code,sal_type,sal_audit_state,sal_audit_time,sal_make_people,sal_login_people,
+		
+		sal_base,sal_bonus_money,sal_traffic_money,sal_call_money,sal_eat_money,sal_house_money,sal_workout_money,
+		
+		sal_overtime_money,sal_sum_money,sal_remarks)values(#{salCode,jdbcType=VARCHAR},#{salType,jdbcType=VARCHAR},#{auditState},#{auditTime,jdbcType=VARCHAR},
+		
+		#{makePeople,jdbcType=VARCHAR},#{loginPeole,jdbcType=VARCHAR},#{salBase},#{bonusMoney},#{trafficMoney},#{callMoney},#{eatMoney},
+		
+		#{houseMoney},#{workoutMoney},#{overtimeMoney},#{sumMoney},#{salRemarks,jdbcType=VARCHAR})
+		
+		</insert>
+<!--预修改查询  -->
+		<select id="queryUserById" parameterType="int" resultMap="salmanager">
+		
+		select sal_manager_id,sal_code,sal_type,sal_audit_state,sal_audit_time,sal_make_people,sal_login_people,
+		
+		sal_base,sal_bonus_money,sal_traffic_money,sal_call_money,sal_eat_money,sal_house_money,sal_workout_money,
+		
+		sal_overtime_money,sal_sum_money,sal_remarks from Salary_Manager where sal_manager_id = #{managerId}
+		
+		</select>
+		
+<!--研发工程师查询  -->
+		<select id="queryNameById" parameterType="int" resultMap="salmanager">
+		
+		select sal_manager_id,sal_code,sal_type,sal_audit_state,sal_audit_time,sal_make_people,sal_login_people,
+		
+		sal_base,sal_bonus_money,sal_traffic_money,sal_call_money,sal_eat_money,sal_house_money,sal_workout_money,
+		
+		sal_overtime_money,sal_sum_money,sal_remarks from Salary_Manager where sal_manager_id = #{managerId}
+		
+		</select>
+		
+<!--删除查询  -->
+		
+		<select id="deleteUser" parameterType="int" resultMap="salmanager">
+		
+		delete from Salary_Manager where sal_manager_id = #{managerId}
+		
+		</select>
+		
+<!--修改数据查询  -->		
+ <update id="updateUser" parameterType="SalmanagerBean">
+		update Salary_Manager set
+		sal_manager_id = #{managerId},sal_code = #{salCode,jdbcType=VARCHAR},sal_type =#{salType,jdbcType=VARCHAR},
+		sal_audit_state = #{auditState},sal_audit_time =#{auditTime,jdbcType=VARCHAR},sal_make_people = #{makePeople,jdbcType=VARCHAR},
+		sal_login_people =#{loginPeole,jdbcType=VARCHAR},sal_base = #{salBase},sal_bonus_money = #{bonusMoney},sal_traffic_money = #{trafficMoney},
+		sal_call_money = #{callMoney},sal_eat_money = #{eatMoney},sal_house_money = #{houseMoney},sal_workout_money = #{workoutMoney},
+		sal_overtime_money = #{overtimeMoney},sal_sum_money = #{sumMoney},sal_remarks = #{salRemarks,jdbcType=VARCHAR}
+		where sal_manager_id = #{managerId}
+</update> 
+
+<!-- 薪酬标准审批分页查询 -->
+	<select id="queryUserByMapShenpi" parameterType="map" resultMap="salmanager">
+		<include refid="my_sql"></include>
+		<where>
+			<if test="salCode != null and salCode != ''">
+				<!-- sal_type like "%"#{salType}"%" -->
+				 and sal_type like '%${salCode}%'
+			</if>
+			<if test="auditState != null and auditState !=''and auditState !=0">
+				 and sal_audit_state = #{auditState}
+			</if>
+		</where>
+				order by sal_manager_id asc
+	</select>	
+	
+<!-- 薪酬标准审批分页查询 -->
+<!-- 	<select id="queryUserByMapFafang" parameterType="map" resultMap="salmanager">
+		
+		select Salary_Manager.sal_type,Salary_Manager.sal_sum_money,pema_tb.pema_name, from emp_tb left outer join
+		
+		 dept_tb on emp_tb.dept_id = dept_tb.dept_id;                                           
+
+		<where>
+			<if test="salCode != null and salCode != ''">
+				sal_type like "%"#{salType}"%"
+				 and sal_type like '%${salCode}%'
+			</if>
+			<if test="auditState != null and auditState !=''and auditState !=0">
+				 and sal_audit_state = #{auditState}
+			</if>
+		</where>
+				order by sal_manager_id asc
+	</select> -->
+</mapper>

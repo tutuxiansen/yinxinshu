@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须为对应的Dao的接口名 -->
+<mapper namespace="com.xhhy.dao.MenuDao">
+
+	<!-- 配置映射关系 -->
+	<resultMap type="com.xhhy.domain.MenuBean" id="ps">
+		<id property="menuId" column="menu_id" />
+		<result property="menuName" javaType="String" column="menu_name" jdbcType="VARCHAR"  />
+		<result property="menuTop" column="menu_top" />
+		<result property="menuUrl" javaType="String" column="menu_url" jdbcType="VARCHAR" />
+		<result property="menuState"  column="menu_state" />
+		<result property="menuRemark" javaType="String" column="menu_remark" jdbcType="VARCHAR" />
+		<association property="top" javaType="com.xhhy.domain.MenuBean">
+			<id property="menuTop" column="menu_top" ></id>
+			<result property="menuName" javaType="String" column="menu_topName" jdbcType="VARCHAR" ></result>
+		</association>
+	</resultMap>
+	<sql id="my_sql">
+		select m1.menu_id,m1.menu_name,m2.menu_top,m2.menu_boss,m2.menu_name as menu_topName,m1.menu_url,m1.menu_state,m1.menu_remark from menu_tb m1 left join menu_tb m2 on m1.menu_top = m2.menu_id
+	</sql>
+	<!-- insert、update、delete、select这些标签，都有id标识，这些id标识一定要映射到对应的Dao的方法名 -->
+	<!-- 映射到UserDao的方法 -->
+	<insert id="add" parameterType="MenuBean"
+		useGeneratedKeys="true" keyColumn="menu_id" keyProperty="menuId">
+		insert into
+		menu_tb
+		(menu_name,menu_top,menu_url,menu_state,menu_remark)
+		values(#{menuName,jdbcType=VARCHAR},#{menuTop},#{menuUrl,jdbcType=VARCHAR},#{menuState},#{menuRemark,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="update" parameterType="MenuBean">
+		update menu_tb set
+		menu_name = #{menuName,jdbcType=VARCHAR},menu_top = #{menuTop},menu_url = #{menuUrl,jdbcType=VARCHAR},menu_state = #{menuState},menu_remark = #{menuRemark,jdbcType=VARCHAR}
+		where menu_id = #{menuId}
+	</update>
+
+	<!-- <delete id="delete" parameterType="int">
+		update Position_tb set Position_state = 2 
+		where Position_id = #{PositionId}
+	</delete> -->
+
+	<select id="queryById" parameterType="int" resultMap="ps">
+		<include refid="my_sql"></include>
+			<where>
+		 				m1.menu_id = #{menuId}
+			</where>
+	</select>
+	<select id="queryByTop"  resultMap="ps">
+		<include refid="my_sql"></include>
+			<where>
+		 				m1.menu_top = 68
+			</where>
+	</select>
+	<select id="queryAll" resultMap="ps">
+		<include refid="my_sql"></include>
+	</select>
+	<select id="queryByMap" parameterType="map" resultMap="ps">
+		<include refid="my_sql"></include>
+		<where>
+			<if test="menuName != null and menuName != ''">
+				m1.menu_name like '%${menuName}%' 
+			</if>
+		</where> 
+	</select>
+</mapper>

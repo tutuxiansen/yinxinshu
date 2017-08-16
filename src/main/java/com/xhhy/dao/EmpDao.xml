@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhhy.dao.EmpDao">
+
+	<sql id="all">
+		data_id,emp_id,emp_name,emp_gender,emp_position,emp_positional,emp_tel,
+		emp_record_state,create_year,create_month,create_day,dept_name,emp_education
+	</sql>
+
+	<resultMap id="emp" type="com.xhhy.domain.EmpBean">
+		<id property="dataId" column="data_id" />
+		<result property="deptName" column="dept_name" />
+		<result property="empId" column="emp_id" />
+		<result property="empName" column="emp_name" />
+		<result property="empGender" column="emp_gender" />
+		<result property="empPosition" column="emp_position" />
+		<result property="empPositonal" column="emp_positional" />
+		<result property="empTel" column="emp_tel" />
+		<result property="empRecordState" column="emp_record_state" />
+		<result property="createYear" column="create_year" />
+		<result property="createMonth" column="create_month" />
+		<result property="createDay" column="create_day" />
+		<result property="empEducation" column="emp_education" />
+	</resultMap>
+
+	<!-- 根据姓名查询 -->
+	<select id="queryByIf" parameterType="EmpBean" resultMap="emp">
+		select
+		<include refid="all"></include>
+		from EMP_DETAILS_TB where 1 = 1
+		<if test="deptName!= null and deptName!= ''">
+			and dept_name = #{deptName}
+		</if>
+		<if test="empName!= null and empName!= ''">
+			and emp_name like '%${empName}%'
+		</if>
+		<if test="empRecordState!= null and empRecordState!= ''">
+			and emp_record_state = #{empRecordState}
+		</if>
+		
+		<!-- <if test="createRecordTime!= null and createRecordTime!= ''"> and 
+			create_record_time between #{createRecordTimeOne} and #{createRecordTimeTwo} 
+			</if> -->
+			
+	</select>
+
+	<!-- 查询全部 -->
+	<select id="queryAll" resultMap="emp">
+		select
+		<include refid="all" />
+		from EMP_DETAILS_TB
+	</select>
+
+
+	<select id="queryCount" parameterType="EmpBean" resultType="int">
+		select count(1) from EMP_DETAILS_TB
+		<where>
+			<if test="empName!= null and emp!= ''">
+				emp_name like '%${empName}%'
+			</if>
+		</where>
+	</select>
+
+	<!-- 查询所有 -->
+	<select id="queryEmpByPageUtil" parameterType="List" resultMap="emp">
+		select
+		<include refid="all" />
+		from EMP_DETAILS_TB where data_id between #{startNum} and #{endNum}
+	</select>
+
+
+
+	<select id="queryEmpByMap" parameterType="map" resultMap="emp">
+		select
+		<include refid="all" />
+		from EMP_DETAILS_TB
+		<where>
+			<if test="deptName!= null and deptName!= ''">
+				and dept_name = #{deptName}
+			</if>
+			<if test="empName!= null and empName!= ''">
+				and emp_name like '%${empName}%'
+			</if>
+			<if test="empRecordState!= null and empRecordState!= ''">
+				and emp_record_state = #{empRecordState}
+			</if>
+		</where>
+	</select>
+
+	<select id="queryEmpByEducation" parameterType="map" resultType="Map">
+		select
+			create_year as "YEAR",
+			count(*) as "ALL_MANS",
+			sum(case when emp_education = '专科' then 1 else 0 end) as "ZK",
+			sum(case when emp_education = '本科' then 1 else 0 end) as "BK",
+			sum(case when emp_education = '博士' then 1 else 0 end) as "BS",
+			sum(case when emp_education = '硕士' then 1 else 0 end) as "SS"
+		from EMP_DETAILS_TB 
+		<!-- TODO:修改下拉查询 -->
+		<if test="year != null and year!= '' and year!= 0">
+			where  create_year = #{year}
+		</if>
+			group by create_year
+			order by create_year desc
+	</select>
+	
+	
+	<select id="queryEmpByEducationShowDept" parameterType="map" resultType="Map">
+		select
+			dept_name as "DEPT",
+			count(*) as "ALL_MANS",
+			sum(case when emp_education = '专科' then 1 else 0 end) as "ZK",
+			sum(case when emp_education = '本科' then 1 else 0 end) as "BK",
+			sum(case when emp_education = '博士' then 1 else 0 end) as "BS",
+			sum(case when emp_education = '硕士' then 1 else 0 end) as "SS"
+		from EMP_DETAILS_TB where create_year = #{year}
+		<!-- TODO:修改下拉查询 -->
+		<if test="deptName!= null and deptName!= ''">
+			and dept_name = #{deptName}
+		</if>
+			group by dept_name
+	</select>
+	
+	
+	<select id="queryEmpByDept" parameterType="EmpBean" resultMap="emp">
+		select
+		<include refid="all"></include>
+		from EMP_DETAILS_TB where dept_name = #{deptName} and create_year = #{createYear}
+	</select>
+</mapper>

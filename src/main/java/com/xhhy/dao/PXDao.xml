@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhhy.dao.PXDao">
+	<!-- 配置映射关系 -->
+	<resultMap type="com.xhhy.domain.PXBean" id="px">
+		<id property="pxId" column="px_id" />
+		<result property="pxName" javaType="String" column="px_name"
+			jdbcType="VARCHAR" />
+		<result property="pxJiangshi" javaType="String" column="px_jiangshi"
+			jdbcType="VARCHAR" />
+		<result property="pxTime" javaType="String" column="px_time"
+			jdbcType="VARCHAR" />
+		<result property="pxFankui" javaType="String" column="px_fankui"
+			jdbcType="VARCHAR" />
+		<result property="pxShzt" javaType="String" column="px_shzt"
+			jdbcType="VARCHAR" />
+		<result property="pxCaozuo" javaType="String" column="px_caozuo"
+			jdbcType="VARCHAR" />
+		<result property="pxMudi" javaType="String" column="px_mudi"
+			jdbcType="VARCHAR" />
+		<result property="pxJianjie" javaType="String" column="px_jianjie"
+			jdbcType="VARCHAR" />
+		<result property="pxZiliao" javaType="String" column="px_ziliao"
+			jdbcType="VARCHAR" />
+		<result property="pxShyj" javaType="String" column="px_shyj"
+			jdbcType="VARCHAR" />
+		<result property="pxZongjie" javaType="String" column="px_zongjie"
+			jdbcType="VARCHAR" />
+		<result property="pxShjg" javaType="String" column="px_shjg"
+			jdbcType="VARCHAR" />
+		<result property="pxEnd" javaType="String" column="px_end"
+			jdbcType="VARCHAR" />
+		<result property="pxStatus" column="px_status"/>
+		<result property="pxCxry" javaType="String" column="px_cxry"
+			jdbcType="VARCHAR" />
+		<result property="pxDel" javaType="int" column="px_del"
+			jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="my_sql">
+		
+select px_id,px_name,px_jiangshi,px_time,px_fankui,px_shzt,px_caozuo,px_mudi,px_jianjie,px_ziliao,px_shyj,px_zongjie,px_shjg,px_end,px_cxry,px_status from px_tb
+		
+	</sql>
+	<!-- 映射到UserDao的方法 -->
+	<!--培训计划 -->
+	<insert id="insertPX" parameterType="PXBean" useGeneratedKeys="true"
+		keyColumn="px_id" keyProperty="pxId">
+		insert into
+		px_tb(px_name,px_jiangshi,px_time,px_end,px_mudi,px_jianjie,px_ziliao,px_status,px_shzt,px_cxry,px_del)
+		values(#{pxName},#{pxJiangshi,},#{pxTime},#{pxEnd},#{pxMudi},#{pxJianjie},#{pxZiliao},1,'起草',#{pxCxry},1)
+	</insert>
+	<!--培训复核 -->
+	<insert id="insertPX2" parameterType="PXBean" useGeneratedKeys="true"
+		keyColumn="px_id" keyProperty="pxId">
+		insert into
+		px_tb(px_name,px_jiangshi,px_time,px_end,px_mudi,px_jianjie,px_ziliao,px_status,px_shzt,px_cxry,px_del)
+		values(#{pxName},#{pxJiangshi,},#{pxTime},#{pxEnd},#{pxMudi},#{pxJianjie},#{pxZiliao},3,'审核通过',#{pxCxry},1)
+	</insert>
+	<!--提交审核修改(审核计划) -->
+	<update id="updatePX" parameterType="PXBean">
+		update px_tb set px_shzt='审核中',px_status=2 where px_id = #{pxId}
+
+		<!-- px_name=#{pxName},px_jiangshi=#{pxJiangshi},px_time=#{pxTime},px_fankui=#{pxFankui},px_shzt=#{pxShzt},px_caozuo=#{pxCaozuo},px_mudi=#{pxMudi},px_jianjie=#{pxJianjie}, 
+			px_ziliao=#{pxZiliao},px_shyj=#{pxShyj},px_zongjie=#{pxZongjie},px_shjg=#{pxShjg},px_pxs=#{pxPxs}) -->
+	</update>
+	<!--list的修改(审核计划) -->
+	<update id="updatePX2" parameterType="PXBean">
+		update px_tb set
+		px_name=#{pxName},px_jiangshi=#{pxJiangshi},px_time=#{pxTime},px_end=#{pxEnd},px_mudi=#{pxMudi},px_jianjie=#{pxJianjie},px_ziliao=#{pxZiliao},px_cxry=#{pxCxry}
+		where px_id = #{pxId}
+	</update>
+	<!--审核复核  修改(审核通过 ) -->
+	<update id="updatePX3" parameterType="PXBean">
+	update px_tb set px_name=#{pxName},px_jiangshi=#{pxJiangshi},px_time=#{pxTime},px_end=#{pxEnd},px_jianjie=#{pxJianjie},px_ziliao=#{pxZiliao},px_cxry=#{pxCxry},px_shyj=#{pxShyj},px_shzt='审核通过',px_status=3,px_del=1 where px_id = #{pxId}
+	</update>
+	<!--审核复核  修改(驳回 ) -->
+	<update id="updatePX4" parameterType="PXBean">
+	update px_tb set px_name=#{pxName},px_jiangshi=#{pxJiangshi},px_time=#{pxTime},px_end=#{pxEnd},px_jianjie=#{pxJianjie},px_ziliao=#{pxZiliao},px_cxry=#{pxCxry},px_shyj=#{pxShyj},px_shzt='驳回',px_status=4,px_del=0 where px_id = #{pxId}
+	</update>
+	<!--培训的反馈和考核   修改(反馈 ) -->
+	<update id="updatePX5" parameterType="PXBean">
+	update px_tb set px_name=#{pxName},px_jiangshi=#{pxJiangshi},px_time=#{pxTime},px_end=#{pxEnd},px_jianjie=#{pxJianjie},px_ziliao=#{pxZiliao},px_cxry=#{pxCxry},px_shyj=#{pxShyj},px_fankui=#{pxFankui},px_zongjie=#{pxZongjie},px_shjg=#{pxShjg},px_del=1 where px_id = #{pxId}
+	</update>
+	<delete id="deletePX" parameterType="int">
+		update px_tb set px_del=0
+		where px_id = #{id}
+	</delete>
+
+	<select id="queryPXById" parameterType="int" resultMap="px">
+		<include refid="my_sql"></include>
+		where px_id = #{id}
+	</select>
+	<!--培训计划 -->
+	<select id="queryPXByMap" parameterType="map" resultMap="px">
+		<include refid="my_sql"></include>
+		<where>
+			<if test="pxDel != null and pxDel != ''">
+				and px_del = 1
+			</if>
+			<!-- <if test="pxName != null and pxName != ''">
+				and px_name like '%${pxName}%'
+			</if>
+ -->		</where>
+	</select>
+	<!-- 培训复核 -->
+	<select id="queryPXByMap2" parameterType="map" resultMap="px">
+		<include refid="my_sql"></include>
+		<where>
+			<!-- <if test="pxStatus == 1"> and px_status = 2 </if> -->
+			<if test="pxStatus != null and pxStatus != ''">
+				and px_status = 2
+			</if>
+			<if test="pxDel != null and pxDel != ''">
+				and px_del = 1
+			</if>
+			<!-- <if test="pxName != null and pxName != ''"> and px_name like '%${pxName}%' 
+				</if> -->
+		</where>
+	</select>
+	<!-- 培训考核和反馈 -->
+	<select id="queryPXByMap3" parameterType="map" resultMap="px">
+		<include refid="my_sql"></include>
+		<where>
+			<!-- <if test="pxStatus == 1"> and px_status = 2 </if> -->
+			<if test="pxStatus != null and pxStatus != ''">
+				and px_status = 3
+			</if>
+			<if test="pxDel != null and pxDel != ''">
+				and px_del = 1
+			</if>
+			<!-- <if test="pxName != null and pxName != ''"> and px_name like '%${pxName}%' 
+				</if> -->
+		</where>
+	</select>
+	<select id="queryCount" parameterType="PXBean" resultType="int">
+		select count(1) from px_tb
+		<where>
+			<if test="pxName != null and pxName != ''">
+				px_name like "%"#{pxName}"%"
+			</if>
+		</where>
+	</select>
+	<select id="queryAll" resultMap="px">
+		<include refid="my_sql" />
+	</select>
+
+</mapper>
+

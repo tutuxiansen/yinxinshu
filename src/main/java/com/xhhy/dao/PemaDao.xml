@@ -1,0 +1,48 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+namespace必须为对应的Dao的接口名
+<mapper namespace="com.xhhy.dao.PemaDao">
+	配置映射关系
+	<resultMap type="com.xhhy.domain.PemaBean" id="pema">
+		<id property="pemaId" column="pema_id"/>
+		<result property="pemaResumeId" column="pema_resume_id"/>
+		<result property="pemaType" column="pema_type"/>
+		<result property="pemaMoney" column="pema_money"/>
+		<result property="pemaBank" column="pema_bank"/>
+		<result property="pemaBankid" column="pema_bankid"/>
+		<result property="pemaInsuranceid" column="pema_Insuranceid"/>
+		<result property="pemaReg" column="pema_reg"/>
+		<result property="pemaTime" column="pema_time"/>
+		<result property="pemaFamily" column="pema_family"/>
+		<result property="pemaRemark" column="pema_remark"/>
+		<result property="pemaLjsc" column="pema_ljsc"/>
+		
+			<collection property="resume" ofType="com.xhhy.domain.ResumeBean">
+				<id property="resumeId" column="resume_id" />
+				<result property="resumePosition" javaType="String" column="resume_position" jdbcType="VARCHAR" />
+				<result property="resumeCode" javaType="String" column="resume_code" jdbcType="VARCHAR" />
+				<result property="resumeClass" javaType="String" column="resume_class" jdbcType="VARCHAR" />
+				<result property="resumeName" javaType="String" column="resume_name" jdbcType="VARCHAR" />
+				<result property="resumeGender" javaType="String" column="resume_gender" jdbcType="VARCHAR" />
+				<result property="resumeType" column="resume_type" />
+				<result property="resumeEmail" javaType="String" column="resume_email" jdbcType="VARCHAR" />
+				<result property="resumePhone" column="resume_phone" />
+				<result property="resumeAddress" javaType="String" column="resume_address" jdbcType="VARCHAR" />
+				<result property="resumeIdentity" javaType="String" column="resume_identity" jdbcType="VARCHAR" />
+				<result property="resumeIdnumber" javaType="String" column="resume_idnumber" jdbcType="VARCHAR" />
+				<result property="resumeCollege" javaType="String" column="resume_college" jdbcType="VARCHAR" />
+				<result property="resumeEducation" javaType="String" column="resume_education" jdbcType="VARCHAR" />
+				<result property="resumeMajor" javaType="String" column="resume_major" jdbcType="VARCHAR" />
+				<result property="resumeExperience" javaType="String" column="resume_experience" jdbcType="VARCHAR" />
+			</collection>
+	</resultMap>
+	<insert id="insertPema" parameterType="PemaBean"></insert>
+	<delete id="deletePema" parameterType="int"></delete>
+	<update id="updatePema" parameterType="PemaBean" ></update>
+	<select id="querypemaById" parameterType="int" resultMap="pema"></select>
+	<select id="queryPemaAll" parameterMap="pema"></select> 
+	
+	
+
+</mapper> -->
