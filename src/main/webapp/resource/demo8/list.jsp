@@ -35,14 +35,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <span>
                 <form action="/yinxinshu/menu/list.do" method="post">
                     菜单名称: 
-					<input type="text" name="menuName"  />
-					 状态: 
-					<select>
-						<option></option>
-						<option>启用</option>
-						<option>禁用</option>
-					
-					</select>
+					<input type="text" name="menuName" value="${keys.menuName }" />
                     <input value="查询" type="submit" />
 					
                 </form>
@@ -64,7 +57,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         <td>${menu.menuId }</td>
                         <td><input type="checkbox" /></td>
 						<td>${menu.menuName }</td>
-                        <td><a href="/yinxinshu/menu/view.do?id=${menu.menuId }">${menu.menuUrl }</a></td> 
+                        <td><a href="/yinxinshu/menu/${menu.menuUrl }"></a></td> 
 						
 						<c:if test="${menu.menuState == 1}"><td>启用</td></c:if> 
 						<c:if test="${menu.menuState == 2}"><td>禁用</td></c:if>					
@@ -76,11 +69,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</c:forEach>
                     <tr>
                         <td colspan="20" style="text-align: center;">						
-						<a style="text-decoration: none;" href="#">
-                           <a href="/yinxinshu/menu/list.do?nowPage=1&menuName=${keys.menuName }">首页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <c:if test="${pageUtil.nowPage  == 1}">
+             首页&nbsp;&nbsp;&nbsp;&nbsp;
+	    上一页&nbsp;&nbsp;&nbsp;&nbsp;
+	</c:if>
+	<c:if test="${pageUtil.nowPage > 1 }">
+    <a href="/yinxinshu/menu/list.do?nowPage=1&menuName=${keys.menuName }">首页</a>&nbsp;&nbsp;&nbsp;&nbsp;
 	<a href="/yinxinshu/menu/list.do?nowPage=${pageUtil.nowPage - 1 }&menuName=${keys.menuName}">上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	</c:if>
+	<c:if test="${pageUtil.nowPage == pageUtil.totalPage }">
+	下一页&nbsp;&nbsp;&nbsp;&nbsp;
+	 尾页&nbsp;&nbsp;&nbsp;&nbsp;
+	 </c:if>
+	 <c:if test="${pageUtil.nowPage != pageUtil.totalPage }">
 	<a href="/yinxinshu/menu/list.do?nowPage=${pageUtil.nowPage + 1 }&menuName=${keys.menuName}">下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
 	<a href="/yinxinshu/menu/list.do?nowPage=${pageUtil.totalPage }&menuName=${keys.menuName}">尾页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	 </c:if>
 	当前页 ${pageUtil.nowPage }&nbsp;&nbsp;&nbsp;&nbsp;
 	分页单位${pageUtil.pageSize }&nbsp;&nbsp;&nbsp;&nbsp;
 	总页数${pageUtil.totalPage }&nbsp;&nbsp;&nbsp;&nbsp;

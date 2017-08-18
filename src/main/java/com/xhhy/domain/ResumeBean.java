@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 public class ResumeBean implements Serializable{
 	private int resumeId;
+	private String resumeDept;//应聘部门名称
 	private String resumePosition;		//应聘职位名称
 	private String resumeCode;		//应聘职位编码
 	private String resumeClass;		//职位分类
@@ -51,6 +52,12 @@ public class ResumeBean implements Serializable{
 	}
 	
 	
+	public String getResumeDept() {
+		return resumeDept;
+	}
+	public void setResumeDept(String resumeDept) {
+		this.resumeDept = resumeDept;
+	}
 	public String getResumePosition() {
 		return resumePosition;
 	}

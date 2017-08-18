@@ -43,7 +43,7 @@ public class UserController {
 	}*/
 	@RequestMapping("preAdd.do")
 	public ModelAndView preAdd(){
-		List<DeptBean> depts = deptService.queryAll();
+		List<DeptBean> depts = deptService.queryAlls();
 		List<PositionBean> positions = position.queryAll();
 		ModelAndView mav = new ModelAndView("/resource/demo2/add.jsp");
 		mav.addObject("depts",depts);
@@ -61,9 +61,11 @@ public class UserController {
 		return "redirect:/user/listUser.do";
 	}
 	@RequestMapping("listUser.do")
-	public String listByPageHelper(Model model , @RequestParam(value = "nowPage",defaultValue = "1") Integer nowPage,String userName){
+	public String listByPageHelper(Model model , @RequestParam(value = "nowPage",defaultValue = "1") Integer nowPage,String userName,String deptName,String positionName){
 		Map keys = new HashMap();
 		keys.put("userName", userName);
+		keys.put("deptName",deptName);
+		keys.put("positionName",positionName);
 		Page<UserBean> page = userService.queryUserByPageHelper(nowPage, 5, keys);
 		List<UserBean> users = page.getResult();
 		int pageNum = page.getPageNum();
@@ -91,7 +93,7 @@ public class UserController {
 	@RequestMapping("preUpdate.do")
 	public ModelAndView preUpdate(@RequestParam(value = "id") int id){
 		UserBean user = userService.queryUserById(id);
-		List<DeptBean> depts = deptService.queryAll();
+		List<DeptBean> depts = deptService.queryAlls();
 		List<PositionBean> positions = position.queryAll();
 		ModelAndView mav = new ModelAndView("/resource/demo2/update.jsp");
 		mav.addObject("depts", depts);

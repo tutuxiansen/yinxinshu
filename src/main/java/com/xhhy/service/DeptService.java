@@ -17,4 +17,6 @@ public void add(DeptBean dept);
 	public List<DeptBean> queryAll();
 	
 	public DeptBean queryById(int id);
+	
+	public List<DeptBean> queryAlls();
 }

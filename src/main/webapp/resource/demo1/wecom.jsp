@@ -33,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <table height=100 cellspacing=0 cellpadding=0 width="100%" border=0>
 
                         <tr>
-                         <td><a href="/yinxinshu/dept/preAdd.do">添加部门</a></td>
+                         <td><a href="/yinxinshu/dept/preAddAll.do">添加部门</a></td>
 						</tr>
 						
                         <tr>

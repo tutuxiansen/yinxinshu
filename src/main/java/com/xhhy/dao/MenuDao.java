@@ -16,9 +16,15 @@ public interface MenuDao {
 	
 	public List<MenuBean> queryAll();
 	
+	public List<MenuBean> menuAll();
+	
+	public List<MenuBean> menuAlls();
+	
 	public List<MenuBean> queryByTop();
 	
 	public MenuBean queryById(int id);
 	
 	public List<MenuBean> queryByMap(Map key);
+	
+	public List<MenuBean> menusByPositionId(int id);
 }

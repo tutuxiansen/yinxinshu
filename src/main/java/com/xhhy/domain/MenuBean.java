@@ -11,7 +11,16 @@ public class MenuBean implements Serializable{
 	private int menuState;
 	private String menuRemark;
 	private MenuBean top;
+	private boolean flag;//标识，代表有没有这个权限
+	private int menuBoss;
 	
+	
+	public int getMenuBoss() {
+		return menuBoss;
+	}
+	public void setMenuBoss(int menuBoss) {
+		this.menuBoss = menuBoss;
+	}
 	public MenuBean getTop() {
 		return top;
 	}
@@ -54,5 +63,10 @@ public class MenuBean implements Serializable{
 	public void setMenuRemark(String menuRemark) {
 		this.menuRemark = menuRemark;
 	}
-	
+	public boolean isFlag() {
+		return flag;
+	}
+	public void setFlag(boolean flag) {
+		this.flag = flag;
+	}
 }

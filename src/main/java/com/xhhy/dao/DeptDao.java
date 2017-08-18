@@ -17,4 +17,6 @@ public interface DeptDao {
 	public List<DeptBean> queryByTop();
 	
 	public DeptBean queryById(int id);
+	
+	public List<DeptBean> queryAlls();
 }

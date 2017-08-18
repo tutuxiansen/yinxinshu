@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须为对应的Dao的接口名 -->
+<mapper namespace="com.xhhy.dao.GrantDao">
+
+	<!-- 配置映射关系 -->
+	<resultMap type="com.xhhy.domain.GrantBean" id="dept">
+		<result property="pmPositionId"  column="pm_position_id" />
+		<result property="pmMenuId" column="pm_menu_id" />
+	</resultMap>
+	<sql id="my_sql">
+		select pm_position_id,pm_menu_id from position_menu_tb  
+	</sql>
+	<!-- insert、update、delete、select这些标签，都有id标识，这些id标识一定要映射到对应的Dao的方法名 -->
+	<!-- 映射到UserDao的方法 -->
+	<insert id="add" parameterType="DeptBean">
+		insert into position_menu_tb(pm_position_id,pm_menu_id)values(#{pmPositionId},#{pmMenuId})
+	</insert>
+
+	<select id="queryById" parameterType="int" resultMap="dept">
+		<include refid="my_sql"></include>
+			
+		 		where pm_position_id = #{pmPositionId}
+			
+	</select>
+
+	<select id="queryAll" resultMap="dept">
+		<include refid="my_sql"></include>
+	</select>
+	<delete id="delete" parameterType="int">
+		delete from  Position_menu_tb 
+		where pm_position_id = #{pmPositionId}
+	</delete>
+</mapper>

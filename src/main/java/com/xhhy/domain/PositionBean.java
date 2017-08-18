@@ -1,6 +1,7 @@
 package com.xhhy.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PositionBean implements Serializable{
@@ -15,20 +16,33 @@ public class PositionBean implements Serializable{
 	private String positionRemark;
 	private int positionState;
 	private DeptBean deptBean;
-	private List<MenuBean> menuBean;
+	private int positionBoss;
+	private List<MenuBean> grant = new ArrayList<MenuBean>();
+	private MenuBean menuBean;
 	
+	public int getPositionBoss() {
+		return positionBoss;
+	}
+	public void setPositionBoss(int positionBoss) {
+		this.positionBoss = positionBoss;
+	}
+	public MenuBean getMenuBean() {
+		return menuBean;
+	}
+	public void setMenuBean(MenuBean menuBean) {
+		this.menuBean = menuBean;
+	}
+	public List<MenuBean> getGrant() {
+		return grant;
+	}
+	public void setGrant(List<MenuBean> grant) {
+		this.grant = grant;
+	}
 	public DeptBean getDeptBean() {
 		return deptBean;
 	}
 	public void setDeptBean(DeptBean deptBean) {
 		this.deptBean = deptBean;
-	}
-	
-	public List<MenuBean> getMenuBean() {
-		return menuBean;
-	}
-	public void setMenuBean(List<MenuBean> menuBean) {
-		this.menuBean = menuBean;
 	}
 	public int getPositionState() {
 		return positionState;

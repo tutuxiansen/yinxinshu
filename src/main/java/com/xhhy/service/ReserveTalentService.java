@@ -1,13 +1,15 @@
 package com.xhhy.service;
 
 import java.util.List;
+import java.util.Map;
 
-import com.xhhy.domain.ReserveTalentBean;
+import com.github.pagehelper.Page;
+import com.xhhy.domain.PemaBean;
+import com.xhhy.util.PageUtil;
 
 public interface ReserveTalentService {
 	
-	
-	public List<ReserveTalentBean> queryAll();
-	
-	public List<ReserveTalentBean> queryByName(ReserveTalentBean bean);
+	public List<PemaBean> queryEmpByPageUtil(PageUtil<PemaBean> pageUtil);
+
+	public Page<PemaBean> queryEmpByPageHelper(int nowPage, int i, Map map);
 }

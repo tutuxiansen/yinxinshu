@@ -264,7 +264,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<img height=9  src="./img/menu_icon.gif" width=9>
 							</td>
                             <td>
-								<a class=menuchild  href="emp/queryAll.do"   target="right">职员明细表</a>
+								<a class=menuchild  href="emp/queryByIf.do"   target="right">职员明细表</a>
 							</td>
 						</tr>
                         <tr height=20>
@@ -288,7 +288,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<img height=9 src="./img/menu_icon.gif" width=9>
 							</td>
                             <td>
-								<a class=menuchild  href="reser/query.do"  target="right">储备人才统计表</a>
+								<a class=menuchild  href="reser/queryByName.do"  target="right">储备人才统计表</a>
 							</td>
 						</tr>
 						

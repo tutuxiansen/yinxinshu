@@ -45,4 +45,8 @@ public class DeptServiceImpl implements DeptService{
 	public void setDeptDao(DeptDao deptDao) {
 		this.deptDao = deptDao;
 	}
+
+	public List<DeptBean> queryAlls() {
+		return deptDao.queryAlls();
+	}
 }

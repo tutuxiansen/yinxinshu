@@ -30,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
         <div style="font-size: 13px;margin: 10px 5px">
             <form action="/yinxinshu/dept/update.do" method="post" >
-            <input type="hidden" name="deptId" value="3" >
+            <input type="hidden" name="deptId" value="${dept.deptId }">
             <table border="1" width="100%" class="table_a">
                 <tr>
                     <td width="120px;">部门编码：<span style="color:red">*</span>：</td>
@@ -51,11 +51,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <tr>
                     <td>上级部门：<span style="color:red">*</span>：</td>
                     <td>
-						<select name="deptTop">
-        	<c:forEach items="${depts }" var="dept">
-        		<option value="${dept.deptId }" <c:if test="${dept.top.deptId == dept.deptId }">selected</c:if>>${dept.deptSimplicityName }</option>
+        	<select name="deptTop">
+        	<c:forEach items="${deptTops }" var="deptTop">
+        		<option  value="${deptTop.deptId }" <c:if test="${dept.top.deptId == deptTop.deptId }">selected</c:if>>${deptTop.deptSimplicityName }</option>
         	</c:forEach>
         	</select>
+                    
 					</td>
                 </tr>
                 <tr>
@@ -85,8 +86,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <td>是否启用：</td>
                     <td>
                        <select name="deptState">
-							<option value="1">启用</option>
-							<option value="2">禁用</option>						
+							<option value="1" <c:if test="${dept.deptState == 1 }">selected</c:if>>启用</option>
+							<option value="2" <c:if test="${dept.deptState == 2 }">selected</c:if>>禁用</option>						
 						 </select>
                     </td>                
                 </tr>

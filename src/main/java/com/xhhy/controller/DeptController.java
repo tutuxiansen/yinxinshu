@@ -21,7 +21,7 @@ public class DeptController {
 	//d树传值
 	@RequestMapping("list.do")
 	public ModelAndView listAll() {
-		List<DeptBean> depts = deptService.queryAll();
+		List<DeptBean> depts = deptService.queryAlls();
 		ModelAndView mav = new ModelAndView("/resource/demo1/left.jsp");
 		mav.addObject("depts", depts);
 		return mav;
@@ -34,6 +34,14 @@ public class DeptController {
 		mav.addObject("depts", depts);
 		return mav;
 	}
+	//添加前查询preAddAll
+		@RequestMapping("preAddAll.do")
+		public ModelAndView preAddAll(){
+			List<DeptBean> depts = deptService.queryAll();
+			ModelAndView mav = new ModelAndView("/resource/demo1/add.jsp");
+			mav.addObject("depts", depts);
+			return mav;
+		}
 	//添加
 	@RequestMapping("add.do")
 	public String insertUser(@ModelAttribute DeptBean dept){
@@ -50,17 +58,17 @@ public class DeptController {
 	 @RequestMapping("preUpdate.do")
 	public ModelAndView preUpdate(@RequestParam(value = "id") int id){
 		DeptBean dept = deptService.queryById(id);
-		List<DeptBean> depts = deptService.queryAll();
+		List<DeptBean> deptTops = deptService.queryAlls();
 		ModelAndView mav = new ModelAndView("/resource/demo1/update.jsp");
 		mav.addObject("dept", dept);
-		mav.addObject("depts", depts);
+		mav.addObject("deptTops", deptTops);
 		return mav;
 	}
 	 //修改
 	@RequestMapping("update.do")
 	public ModelAndView updateUser(@ModelAttribute DeptBean dept){
 		deptService.update(dept);
-		ModelAndView mav = new ModelAndView("/dept/view.do?id=4");
+		ModelAndView mav = new ModelAndView("/resource/demo1/wecom.jsp");
 		return mav;
 	}
 	@RequestMapping("view.do")

@@ -35,11 +35,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <span>
                 <form action="/yinxinshu/user/listUser.do" method="post">
                      姓名：
-					<input type="text" name="userName"/>
+					<input type="text" name="userName" value="${keys.userName }"/>
 					 角色: 
-					<input type="text"  />
+					<input type="text" name="positionName" value="${keys.positionName }"/>
 					 所属部门: 
-					<input type="text"  />
+					<input type="text"  name="deptName" value="${keys.deptName }"/>
                     <input value="查询" type="submit" />
 					
                 </form>
@@ -74,11 +74,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					
                     <tr>
                         <td colspan="20" style="text-align: center;">						
-						<a style="text-decoration: none;" href="#"></a>
-    <a href="/yinxinshu/user/listUser.do?nowPage=1&userName=${keys.userName }">首页</a>&nbsp;&nbsp;&nbsp;&nbsp;
-	<a href="/yinxinshu/user/listUser.do?nowPage=${pageUtil.nowPage - 1 }&userName=${keys.userName}">上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
-	<a href="/yinxinshu/user/listUser.do?nowPage=${pageUtil.nowPage + 1 }&userName=${keys.userName}">下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
-	<a href="/yinxinshu/user/listUser.do?nowPage=${pageUtil.totalPage }&userName=${keys.userName}">尾页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <c:if test="${pageUtil.nowPage  == 1}">
+             首页&nbsp;&nbsp;&nbsp;&nbsp;
+	    上一页&nbsp;&nbsp;&nbsp;&nbsp;
+	</c:if>
+	<c:if test="${pageUtil.nowPage > 1 }">
+    <a href="/yinxinshu/user/listUser.do?nowPage=1&userName=${keys.userName }&deptName=${keys.deptNameName }&positionName=${keys.positionName }">首页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="/yinxinshu/user/listUser.do?nowPage=${pageUtil.nowPage - 1 }&userName=${keys.userName}&deptName=${keys.deptNameName }&positionName=${keys.positionName }">上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	</c:if>
+     <c:if test="${pageUtil.nowPage == pageUtil.totalPage }">
+	 下一页&nbsp;&nbsp;&nbsp;&nbsp;
+	 尾页&nbsp;&nbsp;&nbsp;&nbsp;
+	 </c:if>
+	 <c:if test="${pageUtil.nowPage != pageUtil.totalPage }">
+	<a href="/yinxinshu/user/listUser.do?nowPage=${pageUtil.nowPage + 1 }&userName=${keys.userName}&deptName=${keys.deptNameName }&positionName=${keys.positionName }">下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="/yinxinshu/user/listUser.do?nowPage=${pageUtil.totalPage }&userName=${keys.userName}&deptName=${keys.deptNameName }&positionName=${keys.positionName }">尾页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	 </c:if>
 	当前页 ${pageUtil.nowPage }&nbsp;&nbsp;&nbsp;&nbsp;
 	分页单位${pageUtil.pageSize }&nbsp;&nbsp;&nbsp;&nbsp;
 	总页数${pageUtil.totalPage }&nbsp;&nbsp;&nbsp;&nbsp;

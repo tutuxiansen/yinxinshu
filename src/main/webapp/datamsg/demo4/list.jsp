@@ -57,18 +57,48 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                <td></td>   
                     </tr>
 
-					<c:forEach items="${beans}" var ="bean">
+					<c:forEach items="${emps}" var ="emp">
 					<tr id="product1">
-						<td>${bean.empName}</td>
-						<td>${bean.empGender}</td>
-						<td>${bean.empTel}</td>
-						<td>${bean.empProfession}</td>
-						<td>${bean.empEducation}</td>
-						<td>${bean.empScholl}</td>
-						<td>${bean.empWorkExperience}</td>
-						<td>${bean.empAppointed}</td>
+						<td>${emp.pema_resume.resumeName}</td>
+						<td>${emp.pema_resume.resumeGender}</td>
+						<td>${emp.pema_resume.resumePhone}</td>
+						<td>${emp.pema_resume.resumeMajor}</td>
+						<td>${emp.pema_resume.resumeEducation}</td>
+						<td>${emp.pema_resume.resumeCollege}</td>
+						<td>${emp.pema_resume.resumeExperience}</td>
+						<td>暂无</td>
 					</tr>
 				</c:forEach>
+				<tr>
+					<td colspan="20" style="text-align: center;">
+					<c:if test="${pageUtil.nowPage > 1}">
+						<a href="reser/queryByName.do?nowPage=1&userName=${emp.pema_resume.resumeName }">首页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+					</c:if>
+					<c:if test="${pageUtil.nowPage <= 1}">
+						首页&nbsp;&nbsp;&nbsp;&nbsp;
+					</c:if>
+					<c:if test="${pageUtil.nowPage > 1}">
+						<a href="reser/queryByName.do?nowPage=${pageUtil.nowPage - 1 }&empName=${emp.pema_resume.resumeName}">上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+					</c:if>
+					<c:if test="${pageUtil.nowPage <= 1}">
+						上一页&nbsp;&nbsp;&nbsp;&nbsp;
+					</c:if>
+					<c:if test="${pageUtil.nowPage < pageUtil.totalPage}">
+						<a href="reser/queryByName.do?nowPage=${pageUtil.nowPage + 1 }&empName=${emp.pema_resume.resumeName}">下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+					</c:if>
+					<c:if test="${pageUtil.nowPage >= pageUtil.totalPage}">
+						下一页&nbsp;&nbsp;&nbsp;&nbsp;
+					</c:if>
+					
+					<c:if test="${pageUtil.nowPage < pageUtil.totalPage}">
+						<a href="reser/queryByName.do?nowPage=${pageUtil.totalPage }&empName=${emp.pema_resume.resumeName}">尾页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+					</c:if>
+					<c:if test="${pageUtil.nowPage >= pageUtil.totalPage}">
+						尾页&nbsp;&nbsp;&nbsp;&nbsp;
+					</c:if>
+					共${pageUtil.totalCount }条 每页显示${pageUtil.pageSize }&nbsp;  
+					 ${pageUtil.nowPage }/${pageUtil.totalPage }</td>
+				</tr>
                 </tbody>
             </table>
         </div>

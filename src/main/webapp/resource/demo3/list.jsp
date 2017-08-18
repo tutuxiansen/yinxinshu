@@ -26,7 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <span style="float: left;">当前位置是：系统管理-》职位设置</span>
                 <span style="float: right; margin-right: 8px; font-weight: bold;">
                     <a style="text-decoration: none;" href="/yinxinshu/position/preAdd.do">【添加】</a>
-					<a style="text-decoration: none;" href="">【删除】</a>
+					<a style="text-decoration: none;" href="/yinxinshu/position/list.do">【删除】</a>
                 </span>
             </span>
         </div>
@@ -35,15 +35,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <span>
                 <form action="/yinxinshu/position/list.do" method="post">
                     职位名称: 
-					<input type="text"  name="positionName" value="${position.positionName }"/>
+					<input type="text"  name="positionName" value="${keys.positionName }"/>
 					 所属部门: 
-					<input type="text"  />
-					是否启用: 
-					<select>
-						<option >---请选择---</option>
-						<option >是</option>
-						<option >否</option>
-					</select>
+					<input type="text"  name="deptName" value="${keys.deptName }"/>
+				
                     <input value="查询" type="submit" />
 					
                 </form>
@@ -77,16 +72,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         <td>
 							<a href="/yinxinshu/position/preUpdate.do?id=${position.positionId}">修改</a>						   
 							<a href="/yinxinshu/position/delete.do?id=${position.positionId}">删除</a>
+							<a href="/yinxinshu/position/grant.do?id=${position.positionId}">授权</a>
 						</td>                        
                     </tr> 
 			</c:forEach>
                     <tr>
                         <td colspan="20" style="text-align: center;">						
-						<a style="text-decoration: none;" href="#"></a>
-						<a href="/yinxinshu/position/list.do?nowPage=1&positionName=${keys.positionName }">首页</a>&nbsp;&nbsp;&nbsp;&nbsp;
-	<a href="/yinxinshu/position/list.do?nowPage=${pageUtil.nowPage - 1 }&positionName=${keys.positionName}">上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
-	<a href="/yinxinshu/position/list.do?nowPage=${pageUtil.nowPage + 1 }&positionName=${keys.positionName}">下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
-	<a href="/yinxinshu/position/list.do?nowPage=${pageUtil.totalPage }&positionName=${keys.positionName}">尾页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	<c:if test="${pageUtil.nowPage  == 1}">
+             首页&nbsp;&nbsp;&nbsp;&nbsp;
+	    上一页&nbsp;&nbsp;&nbsp;&nbsp;
+	</c:if>
+	<c:if test="${pageUtil.nowPage > 1 }">
+	<a href="/yinxinshu/position/list.do?nowPage=1&positionName=${keys.positionName }&deptName=${keys.deptName }">首页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="/yinxinshu/position/list.do?nowPage=${pageUtil.nowPage - 1 }&positionName=${keys.positionName}&deptName=${keys.deptName }">上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	</c:if>
+	<c:if test="${pageUtil.nowPage == pageUtil.totalPage }">
+	 下一页&nbsp;&nbsp;&nbsp;&nbsp;
+	 尾页&nbsp;&nbsp;&nbsp;&nbsp;
+	 </c:if>
+	 <c:if test="${pageUtil.nowPage != pageUtil.totalPage }">
+	<a href="/yinxinshu/position/list.do?nowPage=${pageUtil.nowPage + 1 }&positionName=${keys.positionName}&deptName=${keys.deptName }">下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="/yinxinshu/position/list.do?nowPage=${pageUtil.totalPage }&positionName=${keys.positionName}&deptName=${keys.deptName }">尾页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	</c:if>
 	当前页 ${pageUtil.nowPage }&nbsp;&nbsp;&nbsp;&nbsp;
 	分页单位${pageUtil.pageSize }&nbsp;&nbsp;&nbsp;&nbsp;
 	总页数${pageUtil.totalPage }&nbsp;&nbsp;&nbsp;&nbsp;

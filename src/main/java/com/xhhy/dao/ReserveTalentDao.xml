@@ -3,35 +3,98 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xhhy.dao.ReserveTalentDao">
 	
-	<resultMap id="reser" type="com.xhhy.domain.ReserveTalentBean">
-		<id property="dataId" column="data_id" />
-		<result property="empId" column="emp_id" />
-		<result property="empName" column="emp_name" />
-		<result property="empGender" column="emp_gender" />
-		<result property="empTel" column="emp_tel" />
-		<result property="empProfession" column="emp_profession" />
-		<result property="empEducation" column="emp_education" />
-		<result property="empScholl" column="emp_scholl" />
-		<result property="empWorkExperience" column="emp_workExperience" />
-		<result property="empAppointed" column="emp_appointed" />
+	<sql id="all">
+		pema_id,resume_id,resume_name,resume_gender,resume_phone,resume_major,resume_education,
+		resume_college,resume_experience
+	</sql>
+	
+	<resultMap type="com.xhhy.domain.PemaBean" id="pema">
+		<id property="pemaId" column="pema_id" />
+		<result property="pemaCode" column="pema_code" />
+		<result property="pemaResumeId" column="pema_resume_id" />
+		<result property="pemaType" column="pema_type" />
+		<result property="pemaInterview" column="pema_interview" />
+		<result property="pemaMoney" column="pema_money" />
+		<result property="pemaBank" column="pema_bank" />
+		<result property="pemaBankid" column="pema_bankid" />
+		<result property="pemaInsuranceid" column="pema_Insuranceid" />
+		<result property="pemaReg" column="pema_reg" />
+		<result property="pemaTime" column="pema_time" />
+		<result property="pemaFamily" column="pema_family" />
+		<result property="pemaRemark" column="pema_remark" />
+		<result property="pemaLjsc" column="pema_ljsc" />
+
+		<!-- <result property="pema_Resume" column="pema_resume_id"/> -->
+		<association property="pema_resume" javaType="com.xhhy.domain.ResumeBean">
+			<id property="resumeId" column="resume_id" />
+			<result property="resumeDept" javaType="String" column="resume_dept"
+				jdbcType="VARCHAR" />
+			<result property="resumePosition" javaType="String" column="resume_position"
+				jdbcType="VARCHAR" />
+			<result property="resumeCode" javaType="String" column="resume_code"
+				jdbcType="VARCHAR" />
+			<result property="resumeClass" javaType="String" column="resume_class"
+				jdbcType="VARCHAR" />
+			<result property="resumeName" javaType="String" column="resume_name"
+				jdbcType="VARCHAR" />
+			<result property="resumeGender" javaType="String" column="resume_gender"
+				jdbcType="VARCHAR" />
+			<result property="resumeType" column="resume_type" />
+			<result property="resumeEmail" javaType="String" column="resume_email"
+				jdbcType="VARCHAR" />
+			<result property="resumePhone" column="resume_phone" />
+			<result property="resumeAddress" javaType="String" column="resume_address"
+				jdbcType="VARCHAR" />
+			<result property="resumeIdentity" javaType="String" column="resume_identity"
+				jdbcType="VARCHAR" />
+			<result property="resumeIdnumber" javaType="String" column="resume_idnumber"
+				jdbcType="VARCHAR" />
+			<result property="resumeCollege" javaType="String" column="resume_college"
+				jdbcType="VARCHAR" />
+			<result property="resumeEducation" javaType="String" column="resume_education"
+				jdbcType="VARCHAR" />
+			<result property="resumeMajor" javaType="String" column="resume_major"
+				jdbcType="VARCHAR" />
+			<result property="resumeExperience" javaType="String"
+				column="resume_experience" jdbcType="VARCHAR" />
+			<result property="resumeResume" javaType="String" column="resume_resume"
+				jdbcType="VARCHAR" />
+			<result property="interviewType" column="interview_type" />
+		</association>
 	</resultMap>
 
-	
-	<sql id="all">
-		data_id,emp_id,emp_name,emp_gender,emp_tel,emp_profession,emp_education,
-		emp_scholl,emp_workExperience,emp_appointed
-	</sql>
-
-	<select id="queryAll" resultMap="reser">
-		select 
-		<include refid="all"/>
-		from emp_reserveTalent_tb
+	<select id="queryCount" parameterType="PemaBean" resultType="int">
+		select count(1) from pema_tb rs left join resume_tb jl on
+					rs.pema_resume_id=jl.resume_id
+		<where>
+			<if test="pema_resume != null">
+				<if test="pema_resume.resumeName!= null and pema_resume.resumeName!= ''">
+					jl.resume_name like '%${pema_resume.resumeName}%'
+				</if>
+			</if>
+		</where>
 	</select>
 	
-	<select id="queryByName" parameterType="ReserveTalentBean"  resultMap="reser">
-		select 
-		<include refid="all"/>
-		from emp_reserveTalent_tb  where  emp_name like '%${empName}%'
+	<select id="queryEmpByPageUtil" parameterType="List" resultMap="pema">
+		select
+		<include refid="all" />
+		from pema_tb rs left join resume_tb jl on
+		rs.pema_resume_id=jl.resume_id
+		where rs.pema_id between #{startNum} and #{endNum}
+	</select>
+	
+	
+	<select id="queryEmpByMap" parameterType="map" resultMap="pema">
+		select
+		<include refid="all" />
+		from pema_tb rs left join resume_tb jl on
+		rs.pema_resume_id=jl.resume_id
+		<where>
+			<if test="empName!= null and empName!= ''">
+				jl.resume_name like '%${empName}%'
+			</if>
+			
+		</where>
 	</select>
 	
 </mapper>

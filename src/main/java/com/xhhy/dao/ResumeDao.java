@@ -1,7 +1,9 @@
 package com.xhhy.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import com.xhhy.domain.PXBean;
 import com.xhhy.domain.ResumeBean;
 
 
@@ -14,13 +16,16 @@ public interface ResumeDao{
 	public void resumeByljsc(int id);//逻辑删除
 	public ResumeBean queryResumeById(int id);//基于ID查询
 	public List<ResumeBean> queryResumeAll();//列表查询
+	public List<ResumeBean> queryResumeByMap(Map keys);//分页
 						//面试管理
 	public void updateInterview(ResumeBean resume);//面试结果登记
 	public void interviewByljsc(int id);//逻辑删除
 	public ResumeBean queryInterviewById(int id);//基于ID查询
 	public List<ResumeBean> queryInterviewAll();//列表查询
+	public List<ResumeBean> queryInterviewByMap(Map keys);//分页
 						//录用管理
 	public List<ResumeBean> queryInterviewAll2();//列表查询
+	public List<ResumeBean> queryInterview2ByMap(Map keys);//分页
 	public void updateInterview2(ResumeBean resume);//面试结果
 	
 }

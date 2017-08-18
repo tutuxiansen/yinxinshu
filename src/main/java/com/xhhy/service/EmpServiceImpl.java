@@ -10,8 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.xhhy.dao.EmpDao;
-import com.xhhy.domain.EmpBean;
-import com.xhhy.service.EmpService;
+import com.xhhy.domain.PemaBean;
 import com.xhhy.util.PageUtil;
 
 @Service
@@ -21,11 +20,11 @@ public class EmpServiceImpl  implements EmpService{
 	@Autowired
 	private EmpDao empDao;
 	
-	public List<EmpBean> queryAll() {
+	public List<PemaBean> queryAll() {
 		return empDao.queryAll();
 	}
 
-	public List<EmpBean> queryByIf(EmpBean empBean) {
+	public List<PemaBean> queryByIf(PemaBean empBean) {
 		return empDao.queryByIf(empBean);
 	}
 	public EmpDao getEmpDao() {
@@ -36,38 +35,38 @@ public class EmpServiceImpl  implements EmpService{
 		this.empDao = empDao;
 	}
 
-	public List<EmpBean> queryEmpByPageUtil(PageUtil<EmpBean> pageUtil) {
+	public List<PemaBean> queryEmpByPageUtil(PageUtil<PemaBean> pageUtil) {
 		
-		EmpBean emp = pageUtil.getT();
+		PemaBean emp = pageUtil.getT();
 		int totalCount = empDao.queryCount(emp);
 		int totalPage = totalCount % pageUtil.getPageSize() == 0 ? totalCount / pageUtil.getPageSize() : totalCount / pageUtil.getPageSize() + 1;
 		pageUtil.setTotalCount(totalCount);
 		pageUtil.setTotalPage(totalPage);
 		
-		List<EmpBean> emps = empDao.queryEmpByPageUtil(pageUtil);
+		List<PemaBean> emps = empDao.queryEmpByPageUtil(pageUtil);
 		
 		pageUtil.setObjs(emps);
 		
 		return emps;
 	}
 
-	public List<EmpBean> queryEmpByPageHelper(int nowPage) {
-		Page<EmpBean> page = PageHelper.startPage(nowPage, 5, true);
+	public List<PemaBean> queryEmpByPageHelper(int nowPage) {
+		Page<PemaBean> page = PageHelper.startPage(nowPage, 5, true);
 		empDao.queryAll();
-		List<EmpBean> users = page.getResult();
+		List<PemaBean> users = page.getResult();
 		return users;
 	}
 
 	public Page queryEmpByPageHelper(int nowPage, int pageSize, Map keys) {
 		
-		Page<EmpBean> page = PageHelper.startPage(nowPage, pageSize, true);
+		Page<PemaBean> page = PageHelper.startPage(nowPage, pageSize, true);
 		empDao.queryEmpByMap(keys);
 		return page;
 	}
 
-	public List<EmpBean> queryEmpByMap(Map key) {
+	public List<PemaBean> queryEmpByMap(Map key) {
 		
-		List<EmpBean> emps = empDao.queryEmpByMap(key);
+		List<PemaBean> emps = empDao.queryEmpByMap(key);
 		
 		return emps;
 	}
@@ -82,12 +81,9 @@ public class EmpServiceImpl  implements EmpService{
 		return empDao.queryEmpByEducationShowDept(key);
 	}
 
-	public List<EmpBean> queryEmpByDept(EmpBean empBean) {
+	public List<PemaBean> queryEmpByDept(PemaBean empBean) {
 		return empDao.queryEmpByDept(empBean);
 	}
-
-	
-
 
 
 }

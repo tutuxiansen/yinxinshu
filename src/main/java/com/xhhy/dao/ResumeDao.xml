@@ -103,13 +103,10 @@
 	<update id="updateByType" parameterType="ResumeBean">
 		update resume_tb set interview_type = #{interviewType} where resume_id=#{resumeId}
 	</update>
-	<!--  -->
-	<update id="deleteResume" parameterType="int">
-	</update>
 	<!--逻辑删除  -->
-	<delete id="resumeByljsc" parameterType="int">
+	<update id="resumeByljsc" parameterType="int">
 		update resume_tb set resume_ljsc=0 where resume_id=#{id}
-	</delete>
+	</update>
 	<!--ById查询  -->
 	<select id="queryResumeById" parameterType="int" resultMap="resume">
 		<include refid="my_sql"></include>
@@ -118,13 +115,42 @@
 	<!--列表查询  -->
 	<select id="queryResumeAll" resultMap="resume">
 		<include refid="my_sql"></include>
-		where resume_ljsc=1 and interview_type =0
+		where resume_ljsc=0 and interview_type in(0,6)
 	</select>
+	<!-- 分页查询 -->
+	<select id="queryResumeByMap" parameterType="map" resultMap="resume">
+		<include refid="my_sql"></include>
+		where resume_ljsc=0 and interview_type in(0,6)
+		<!-- <where>
+			<if test="resumeLjsc != null and resumeLjsc != ''">
+				resume_ljsc=1
+			</if>
+			<if test="pxName != null and pxName != ''">
+				and px_name like '%${pxName}%'
+			</if>	
+		</where> -->
+	</select>
+	
+	
 				<!-- 面试管理 -->
+	<!-- 列表查询 -->			
 	 <select id="queryInterviewAll" resultMap="resume">
 	 	<include refid="my_sql"></include>
 	 	where resume_ljsc=1 and interview_type in(1,2,3)
 	 </select>
+	 <!-- 分页查询 -->
+	<select id="queryInterviewByMap" parameterType="map" resultMap="resume">
+		<include refid="my_sql"></include>
+		where resume_ljsc=1 and interview_type in(1,2,3)
+		<!-- <where>
+			<if test="resumeLjsc != null and resumeLjsc != ''">
+				resume_ljsc=1
+			</if>
+			<if test="pxName != null and pxName != ''">
+				and px_name like '%${pxName}%'
+			</if>	
+		</where> -->
+	</select>
 	 <!--ById查询  -->
 	<select id="queryInterviewById" parameterType="int" resultMap="resume">
 		<include refid="my_sql"></include>
@@ -143,8 +169,21 @@
 	 	<include refid="my_sql"></include>
 	 	where resume_ljsc=1 and interview_type in(4,5)
 	 </select>
+	 <!-- 分页查询 -->
+	<select id="queryInterview2ByMap" parameterType="map" resultMap="resume">
+		<include refid="my_sql"></include>
+		where resume_ljsc=1 and interview_type in(4,5)
+		<!-- <where>
+			<if test="resumeLjsc != null and resumeLjsc != ''">
+				resume_ljsc=1
+			</if>
+			<if test="pxName != null and pxName != ''">
+				and px_name like '%${pxName}%'
+			</if>	
+		</where> -->
+	</select>
 	 <!--修改简历状态  -->
 	<update id="updateInterview2" parameterType="ResumeBean">
-		update resume_tb set interview_type = #{interviewType},resume_ljsc=1 where resume_id=#{resumeId}
+		update resume_tb set interview_type = #{interviewType},interview_decision = #{interviewDecision,jdbcType=VARCHAR},interview_decision_time = #{interviewDecisionTime,jdbcType=DATE},resume_ljsc=1 where resume_id=#{resumeId}
 	</update>
 </mapper>

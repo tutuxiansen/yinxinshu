@@ -11,7 +11,7 @@
 		<result property="positionName" javaType="String" column="position_name" jdbcType="VARCHAR"  />
 		<result property="positionClass"  column="position_class"  />
 		<result property="deptId"  column="dept_id" />
-		<result property="menuId"  column="menu_id" />
+		<result property="positionBoss"  column="position_boss" />
 		<result property="positionDescribe" javaType="String" column="position_describe" jdbcType="VARCHAR" />
 		<result property="positionRemark" javaType="String" column="position_remark" jdbcType="VARCHAR" />
 		<result property="positionState" column="position_state" />
@@ -19,14 +19,18 @@
 			<id property="deptId" column="dept_id" ></id>
 			<result property="deptName" javaType="String" column="dept_simplicityName" jdbcType="VARCHAR" ></result>
 		</association>
-		<collection property="menuBean" ofType="com.xhhy.domain.MenuBean">
-			<id property="menuId" column="menu_id" ></id>
-			<result property="menuName" javaType="String" column="menu_name" jdbcType="VARCHAR" ></result>
+		<collection property="grant" ofType="com.xhhy.domain.GrantBean">
+			<result property="pmPositionId" column="pm_position_id" ></result>
+			<result property="pmMenuId"  column="pm_menu_id" />
 		</collection>
+		
 	</resultMap>
 	<sql id="my_sql">
-		select p.position_id,p.position_code,p.position_name,p.position_class,p.position_describe,p.position_remark,p.position_state,d.dept_simplicityName,d.dept_id,m.menu_name,m.menu_id from position_tb p left 
-join dept_tb d on p.dept_id = d.dept_id left join menu_tb m on p.menu_id = m.menu_id
+		select p.position_boss,p.position_id,p.position_code,p.position_name,p.position_class,p.position_describe,p.position_remark,p.position_state,d.dept_simplicityName,d.dept_id from position_tb p left 
+join dept_tb d on p.dept_id = d.dept_id   
+	</sql>
+	<sql id="my_menu">
+		select p.position_boss,p.position_id,p.position_code,p.position_name,p.position_class,p.position_describe,p.position_remark,p.position_state,z.pm_menu_id,z.pm_position_id from position_tb p left join position_menu_tb z on p.position_id = z.pm_position_id 
 	</sql>
 	<!-- insert、update、delete、select这些标签，都有id标识，这些id标识一定要映射到对应的Dao的方法名 -->
 	<!-- 映射到UserDao的方法 -->
@@ -34,21 +38,21 @@ join dept_tb d on p.dept_id = d.dept_id left join menu_tb m on p.menu_id = m.men
 		useGeneratedKeys="true" keyColumn="position_id" keyProperty="positionId">
 		insert into
 		position_tb
-		(position_code,position_name,position_class,dept_id,menu_id,position_describe,position_remark,position_state)
-		values(#{positionCode,jdbcType=VARCHAR},#{positionName,jdbcType=VARCHAR},#{positionClass},#{deptId},#{menuId},#{positionDescribe,jdbcType=VARCHAR},#{positionRemark,jdbcType=VARCHAR},#{positionState})
+		(position_code,position_name,position_class,dept_id,menu_id,position_describe,position_remark,position_state,position_boss)
+		values(#{positionCode,jdbcType=VARCHAR},#{positionName,jdbcType=VARCHAR},#{positionClass},#{deptId},#{menuId},#{positionDescribe,jdbcType=VARCHAR},#{positionRemark,jdbcType=VARCHAR},#{positionState},1)
 	</insert>
 
 	<update id="update" parameterType="PositionBean">
 		update position_tb set
-		position_code = #{positionCode,jdbcType=VARCHAR},position_name = #{positionName,jdbcType=VARCHAR},position_class = #{positionClass},dept_Id = #{deptId},menu_Id = #{menuId},position_describe = #{positionDescribe,jdbcType=VARCHAR},position_remark = #{positionRemark,jdbcType=VARCHAR},position_state = #{positionState}
+		position_code = #{positionCode,jdbcType=VARCHAR},position_name = #{positionName,jdbcType=VARCHAR},position_class = #{positionClass},dept_Id = #{deptId},position_describe = #{positionDescribe,jdbcType=VARCHAR},position_remark = #{positionRemark,jdbcType=VARCHAR},position_state = #{positionState}
 		where position_id = #{positionId}
 	</update>
 
-	<!-- <delete id="delete" parameterType="int">
-		update Position_tb set Position_state = 2 
+	<delete id="delete" parameterType="int">
+		update Position_tb set position_boss = 2 
 		where Position_id = #{PositionId}
-	</delete> -->
-
+	</delete>
+	
 	<select id="queryById" parameterType="int" resultMap="ps">
 		<include refid="my_sql"></include>
 			<where>
@@ -57,12 +61,21 @@ join dept_tb d on p.dept_id = d.dept_id left join menu_tb m on p.menu_id = m.men
 	</select>
 	<select id="queryAll" resultMap="ps">
 		<include refid="my_sql"></include>
+		where p.position_boss = 1
+	</select>
+	<select id="queryByMenu" resultMap="ps">
+		<include refid="my_menu"></include>
+		where p.position_boss = 1
 	</select>
 	<select id="queryByMap" parameterType="map" resultMap="ps">
 		<include refid="my_sql"></include>
 		<where>
+		   p.position_boss = 1
 			<if test="positionName != null and positionName != ''">
-				p.position_name like '%${positionName}%' 
+				and p.position_name like '%${positionName}%' 
+			</if>
+			<if test="deptName != null and deptName != ''">
+				and d.dept_simplicityName like '%${deptName}%' 
 			</if>
 		</where> 
 	</select>

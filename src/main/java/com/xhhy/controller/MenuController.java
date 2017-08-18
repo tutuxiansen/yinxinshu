@@ -64,10 +64,10 @@ public class MenuController {
 		 @RequestMapping("preUpdate.do")
 		public ModelAndView preUpdate(@RequestParam(value = "id") int id){
 			 MenuBean menu = ms.queryById(id);
-			 List<MenuBean> menus = ms.queryAll();
+			 List<MenuBean> menuTops = ms.queryByTop();
 			ModelAndView mav = new ModelAndView("/resource/demo8/update.jsp");
 			mav.addObject("menu", menu);
-			mav.addObject("menus", menus);
+			mav.addObject("menuTops", menuTops);
 			return mav;
 		}
 	//修改

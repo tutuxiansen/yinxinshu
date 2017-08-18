@@ -14,9 +14,14 @@ public class DeptBean implements Serializable{
 	private String deptRemark;
 	private int deptState;
 	private DeptBean top;
+	private int deptBoss;
 	
-	
-	
+	public int getDeptBoss() {
+		return deptBoss;
+	}
+	public void setDeptBoss(int deptBoss) {
+		this.deptBoss = deptBoss;
+	}
 	public DeptBean getTop() {
 		return top;
 	}

@@ -4,26 +4,26 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.pagehelper.Page;
-import com.xhhy.domain.EmpBean;
+import com.xhhy.domain.PemaBean;
 import com.xhhy.util.PageUtil;
 
 public interface EmpService {
 
-	public List<EmpBean> queryAll();	//��ѯȫ��
+	public List<PemaBean> queryAll();	//
 	
-	public List<EmpBean> queryByIf(EmpBean empBean);	//����������ѯ
+	public List<PemaBean> queryByIf(PemaBean empBean);	//����������ѯ
 	//TODO:��ҳ��ѯ
-	public List<EmpBean> queryEmpByPageUtil(PageUtil<EmpBean> pageUtil);
+	public List<PemaBean> queryEmpByPageUtil(PageUtil<PemaBean> pageUtil);
 	
-    public List<EmpBean> queryEmpByPageHelper(int nowPage);
+    public List<PemaBean> queryEmpByPageHelper(int nowPage);
     
     public Page queryEmpByPageHelper(int nowPage, int pageSize, Map keys);
     
-    public List<EmpBean> queryEmpByMap(Map key);
+    public List<PemaBean> queryEmpByMap(Map key);
    
     public List<Map<String, Object>> queryEmpByEducation(Map key);
     
     public List<Map<String, Object>> queryEmpByEducationShowDept(Map key);
     
-    public List<EmpBean> queryEmpByDept(EmpBean empBean);
+    public List<PemaBean> queryEmpByDept(PemaBean empBean);
 }

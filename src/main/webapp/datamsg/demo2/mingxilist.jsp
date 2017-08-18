@@ -50,16 +50,16 @@
 				
 				<c:forEach items="${emps}" var="emp">
 					<tr id="product1">
-						<td>${emp.deptName}</td>
-						<td>${map.empEducation}</td>
-						<td>${emp.empId}</td>
-						<td>${emp.empName}</td>
-						<td>${emp.empGender}</td>
-						<td>${emp.empPosition}</td>
-						<td>${emp.empPositonal}</td>
-						<td>${emp.empTel}</td>
-						<td>${emp.empRecordState}</td>
-						<td>${emp.createYear}-${emp.createMonth}-${emp.createDay}</td>
+						<td>${emp.pema_resume.resumeDept}</td>
+						<td>${emp.pema_resume.resumeEducation}</td>
+						<td>${emp.pemaId}</td>
+						<td>${emp.pema_resume.resumeName}</td>
+						<td>${emp.pema_resume.resumeGender}</td>
+						<td>${emp.pema_resume.resumePosition}</td>
+						<td>${emp.pema_resume.resumeClass}</td>
+						<td>${emp.pema_resume.resumePhone}</td>
+						<td>${emp.pemaInterview}</td>
+						<td>${emp.pemaTime}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

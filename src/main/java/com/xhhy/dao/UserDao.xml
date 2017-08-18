@@ -32,7 +32,7 @@
 	</resultMap>
 	<sql id="my_sql">
 		select
-u.user_id,u.user_code,u.user_username,u.user_password,d.dept_simplicityName,d.dept_id,p.position_name,p.position_id,u.user_name,u.user_idCard,u.user_phone,u.user_email,u.user_address
+u.user_id,u.user_state,u.user_code,u.user_username,u.user_password,d.dept_simplicityName,d.dept_id,p.position_name,p.position_id,u.user_name,u.user_idCard,u.user_phone,u.user_email,u.user_address
 from user_tb u left join dept_tb d on u.dept_id=d.dept_id left join position_tb p on u.position_id = p.position_id
 	</sql>
 	<!-- insert、update、delete、select这些标签，都有id标识，这些id标识一定要映射到对应的Dao的方法名 -->
@@ -63,14 +63,25 @@ from user_tb u left join dept_tb d on u.dept_id=d.dept_id left join position_tb 
 	
 	<select id="queryAll" resultMap="user">
 		<include refid="my_sql"></include>
+		<where>
+		and u.user_state = 1
+		</where>
 	</select>
 	
 	<select id="queryUserByMap" parameterType="map" resultMap="user">
 		<include refid="my_sql"></include>
 		<where>
+			 u.user_state = 1
 			<if test="userName != null and userName != ''">
-				u.user_name like '%${userName}%' and u.user_state = 1
+				and u.user_name like '%${userName}%' 
 			</if>
+			<if test="deptName != null and deptName !=''">
+				and d.dept_simplicityName like '%${deptName}%'
+			</if>
+			<if	test="positionName != null and positionName !=''">
+				and p.position_name like '%${positionName}%'
+			</if>
+				
 		</where> 
 	</select>
 	<!--        添加   ==>后加          -->

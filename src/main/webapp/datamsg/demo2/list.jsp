@@ -160,7 +160,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     </tr>
 					<tr style="font-weight: bold;background-color:#06F"">
                         <td  style="text-align:left; border-top:none">年度</td>
-                       
                     </tr>
                     
                 <c:forEach items="${datas}" var ="data" >
@@ -181,7 +180,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
 			</div>
         </div>
-        
     </body>
 <script type="text/javascript">
 	<c:forEach items="${datas}" var ="data">

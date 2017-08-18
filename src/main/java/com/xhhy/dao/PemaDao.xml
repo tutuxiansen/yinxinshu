@@ -1,13 +1,15 @@
-<!-- <?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-namespace必须为对应的Dao的接口名
+<!-- namespace必须为对应的Dao的接口名 -->
 <mapper namespace="com.xhhy.dao.PemaDao">
-	配置映射关系
+	<!-- 配置映射关系 -->
 	<resultMap type="com.xhhy.domain.PemaBean" id="pema">
 		<id property="pemaId" column="pema_id"/>
+		<result property="pemaCode" column="pema_code"/>
 		<result property="pemaResumeId" column="pema_resume_id"/>
 		<result property="pemaType" column="pema_type"/>
+		<result property="pemaInterview" column="pema_interview"/>
 		<result property="pemaMoney" column="pema_money"/>
 		<result property="pemaBank" column="pema_bank"/>
 		<result property="pemaBankid" column="pema_bankid"/>
@@ -18,8 +20,10 @@ namespace必须为对应的Dao的接口名
 		<result property="pemaRemark" column="pema_remark"/>
 		<result property="pemaLjsc" column="pema_ljsc"/>
 		
-			<collection property="resume" ofType="com.xhhy.domain.ResumeBean">
+		<!-- <result property="pema_Resume" column="pema_resume_id"/> -->
+			<association property="pema_resume" javaType="com.xhhy.domain.ResumeBean">
 				<id property="resumeId" column="resume_id" />
+				<result property="resumeDept" javaType="String" column="resume_dept" jdbcType="VARCHAR"/>
 				<result property="resumePosition" javaType="String" column="resume_position" jdbcType="VARCHAR" />
 				<result property="resumeCode" javaType="String" column="resume_code" jdbcType="VARCHAR" />
 				<result property="resumeClass" javaType="String" column="resume_class" jdbcType="VARCHAR" />
@@ -35,14 +39,84 @@ namespace必须为对应的Dao的接口名
 				<result property="resumeEducation" javaType="String" column="resume_education" jdbcType="VARCHAR" />
 				<result property="resumeMajor" javaType="String" column="resume_major" jdbcType="VARCHAR" />
 				<result property="resumeExperience" javaType="String" column="resume_experience" jdbcType="VARCHAR" />
-			</collection>
+				<result property="resumeResume" javaType="String" column="resume_resume" jdbcType="VARCHAR" />
+				<result property="interviewType" column="interview_type" />
+			</association>
 	</resultMap>
-	<insert id="insertPema" parameterType="PemaBean"></insert>
-	<delete id="deletePema" parameterType="int"></delete>
-	<update id="updatePema" parameterType="PemaBean" ></update>
-	<select id="querypemaById" parameterType="int" resultMap="pema"></select>
-	<select id="queryPemaAll" parameterMap="pema"></select> 
+	<sql id="my_sql">
+		select jl.resume_dept resume_dept, jl.resume_position resume_position,jl.resume_code resume_code,
+		jl.resume_class resume_class,jl.resume_name resume_name,jl.resume_gender resume_gender,
+		jl.resume_type resume_type, jl.resume_email resume_email,jl.resume_phone resume_phone,
+		jl.resume_address resume_address,jl.resume_identity resume_identity,jl.resume_idnumber resume_idnumber,
+		jl.resume_college resume_college,jl.resume_education resume_education,jl.resume_major resume_major,
+		jl.resume_experience resume_experience,jl.resume_resume resume_resume,jl.interview_type interview_type,rs.pema_id pema_id,rs.pema_code pemaCode,
+		rs.pema_resume_id pema_resume_id,rs.pema_type pema_type,rs.pema_interview pema_interview,rs.pema_money pema_money,
+		rs.pema_bank pema_bank,rs.pema_bankid pema_bankid,rs.pema_Insuranceid pema_Insuranceid,
+		rs.pema_reg pema_reg,rs.pema_time pema_time,rs.pema_family pema_family,rs.pema_remark pema_remark 
+		from pema_tb rs left join resume_tb jl on rs.pema_resume_id=jl.resume_id
+	</sql>
+	<insert id="insertPema" parameterType="PemaBean">
+		insert into pema_tb(pema_resume_id,pema_type,pema_money,pema_bank,pema_bankid,pema_insuranceid,pema_reg,pema_time,pema_family,pema_remark,pema_code,pema_interview,pema_ljsc)
+		values(#{pemaResumeId},1,#{pemaMoney},#{pemaBank},#{pemaBankid},#{pemaInsuranceid},#{pemaReg},#{pemaTime},#{pemaFamily},#{pemaRemark},#{pemaCode},#{pemaInterview},1)
+	</insert>
+	<delete id="deletePema" parameterType="int">
+		delete from pema_tb where pema_id=${pemaId}
+	</delete>
+	<!-- 逻辑删除 -->
+	<update id="pemaByljsc" parameterType="int" >
+		update pema_tb set pema_ljsc=0,where pema_id=#{pemaId}
+	</update>
+	<!-- 修改 -->
+	<update id="updatePema" parameterType="PemaBean" >
+		update pema_tb set pema_type=2,pema_money=#{pemaMoney,jdbcType=VARCHAR},pema_bank=#{pemaBank,jdbcType=VARCHAR},pema_bankid=#{pemaBankid,jdbcType=VARCHAR},pema_insuranceid=#{pemaInsuranceid,jdbcType=VARCHAR},pema_reg=#{pemaReg,jdbcType=VARCHAR},
+		pema_time=#{pemaTime,jdbcType=VARCHAR},pema_family=#{pemaFamily,jdbcType=VARCHAR},pema_remark=#{pemaRemark,jdbcType=VARCHAR},pema_code=#{pemaCode,jdbcType=VARCHAR},pema_interview=#{pemaInterview} where pema_id=#{pemaId}
+	</update>
+	<!-- 修改edit -->
+	<update id="updateEdit1" parameterType="PemaBean" >
+		update pema_tb set pema_type
+	</update>
+	<!--恢复  -->
+	<update id="pemaByHf" parameterType="int" >
+		update pema_tb set pema_ljsc=1  where pema_id=#{pemaId}
+	</update>
+	<!--基于ID查询  -->
+	<select id="queryPemaById" parameterType="PemaBean" resultMap="pema">
+		<include refid="my_sql"></include>
+			where rs.pema_id=#{pemaId}
+	</select>
+	 <!--查询列表  -->
+	<!-- <select id="queryPemaAll" resultMap="pema" >
+		<include refid="my_sql"></include>
+		where rs.pema_interview >0 and rs.pema_type !=2 and rs.pema_ljsc=0
+	</select> -->
+	<!-- 分页查询 -->
+	<select id="queryInterviewByMap" parameterType="map" resultMap="pema">
+		<include refid="my_sql"></include>
+		where rs.pema_interview >0 and rs.pema_type !=2 
+		<!-- <where>
+			<if test="resumeLjsc != null and resumeLjsc != ''">
+				resume_ljsc=1
+			</if>
+			<if test="pxName != null and pxName != ''">
+				and px_name like '%${pxName}%'
+			</if>	
+		</where> -->
+	</select>
 	
 	
-
-</mapper> -->
+	<!--人事审批  -->
+	<!-- 分页查询 -->
+	<select id="queryInterviewByMap2" parameterType="map" resultMap="pema">
+		<include refid="my_sql"></include>
+		where rs.pema_interview >0 and rs.pema_type =2 
+		<!-- <where>
+			<if test="resumeLjsc != null and resumeLjsc != ''">
+				resume_ljsc=1
+			</if>
+			<if test="pxName != null and pxName != ''">
+				and px_name like '%${pxName}%'
+			</if>	
+		</where> -->
+	</select>
+	
+</mapper>

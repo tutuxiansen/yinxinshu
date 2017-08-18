@@ -11,14 +11,23 @@
 		<result property="menuTop" column="menu_top" />
 		<result property="menuUrl" javaType="String" column="menu_url" jdbcType="VARCHAR" />
 		<result property="menuState"  column="menu_state" />
+		<result property="menuBoss" column="menu_boss"/>
 		<result property="menuRemark" javaType="String" column="menu_remark" jdbcType="VARCHAR" />
 		<association property="top" javaType="com.xhhy.domain.MenuBean">
-			<id property="menuTop" column="menu_top" ></id>
+			<id property="menuId" column="menu_top" ></id>
 			<result property="menuName" javaType="String" column="menu_topName" jdbcType="VARCHAR" ></result>
 		</association>
 	</resultMap>
+	<resultMap type="com.xhhy.domain.MenuBean" id="ps2">
+		<id property="menuId" column="menu_id" />
+		<result property="menuName" javaType="String" column="menu_name" jdbcType="VARCHAR"  />
+		<result property="menuTop" column="menu_top" />
+		<result property="menuUrl" javaType="String" column="menu_url" jdbcType="VARCHAR" />
+		<result property="menuState"  column="menu_state" />
+		<result property="menuRemark" javaType="String" column="menu_remark" jdbcType="VARCHAR" />
+	</resultMap>
 	<sql id="my_sql">
-		select m1.menu_id,m1.menu_name,m2.menu_top,m2.menu_boss,m2.menu_name as menu_topName,m1.menu_url,m1.menu_state,m1.menu_remark from menu_tb m1 left join menu_tb m2 on m1.menu_top = m2.menu_id
+		select m1.menu_id,m1.menu_boss,m1.menu_name,m2.menu_id menu_top,m2.menu_name as menu_topName,m1.menu_url,m1.menu_state,m1.menu_remark from menu_tb m1 left join menu_tb m2 on m1.menu_top = m2.menu_id
 	</sql>
 	<!-- insert、update、delete、select这些标签，都有id标识，这些id标识一定要映射到对应的Dao的方法名 -->
 	<!-- 映射到UserDao的方法 -->
@@ -26,8 +35,8 @@
 		useGeneratedKeys="true" keyColumn="menu_id" keyProperty="menuId">
 		insert into
 		menu_tb
-		(menu_name,menu_top,menu_url,menu_state,menu_remark)
-		values(#{menuName,jdbcType=VARCHAR},#{menuTop},#{menuUrl,jdbcType=VARCHAR},#{menuState},#{menuRemark,jdbcType=VARCHAR})
+		(menu_name,menu_top,menu_url,menu_state,menu_remark,menu_boss)
+		values(#{menuName,jdbcType=VARCHAR},#{menuTop},#{menuUrl,jdbcType=VARCHAR},#{menuState},#{menuRemark,jdbcType=VARCHAR},1)
 	</insert>
 
 	<update id="update" parameterType="MenuBean">
@@ -36,10 +45,10 @@
 		where menu_id = #{menuId}
 	</update>
 
-	<!-- <delete id="delete" parameterType="int">
-		update Position_tb set Position_state = 2 
-		where Position_id = #{PositionId}
-	</delete> -->
+	<delete id="delete" parameterType="int">
+		update menu_tb set menu_boss = 2 
+		where menu_id = #{menuId}
+	</delete>
 
 	<select id="queryById" parameterType="int" resultMap="ps">
 		<include refid="my_sql"></include>
@@ -50,18 +59,34 @@
 	<select id="queryByTop"  resultMap="ps">
 		<include refid="my_sql"></include>
 			<where>
-		 				m1.menu_top = 68
+		 				m1.menu_top = 68 and m1.menu_boss = 1
 			</where>
 	</select>
 	<select id="queryAll" resultMap="ps">
 		<include refid="my_sql"></include>
+		where m1.menu_boss = 1
+	</select>
+	<select id="menuAll" resultMap="ps">
+	<include refid="my_sql"></include>
+		where  m1.menu_boss = 1 and m1.menu_id != 68
+	</select>
+	
+	<!-- 下拉框菜单 -->
+	<select id="menuAlls" resultMap="ps">
+	select menu_id,menu_name,menu_top from menu_tb  and menu_id != 68
 	</select>
 	<select id="queryByMap" parameterType="map" resultMap="ps">
 		<include refid="my_sql"></include>
 		<where>
+			m1.menu_boss = 1
 			<if test="menuName != null and menuName != ''">
-				m1.menu_name like '%${menuName}%' 
+				and m1.menu_name like '%${menuName}%' 
 			</if>
 		</where> 
+				
+	</select>
+	
+	<select id="menusByPositionId" parameterType="int" resultMap="ps2">
+		select m.* from menu_tb m,position_menu_tb pm where m.menu_id = pm.pm_menu_id and pm.pm_position_id = #{id} and m.menu_id != 68
 	</select>
 </mapper>

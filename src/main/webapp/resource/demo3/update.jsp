@@ -45,9 +45,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <td>职位分类<span style="color:red">*</span>：</td>
                     <td>
 						<select name="positionClass">
-							<option value="1">管理</option>
-							<option value="2">技术</option>
-							<option value="3">实施</option>						
+							<option value="1" <c:if test="${position.positionClass == 1 }">selected</c:if>>管理</option>
+							<option value="2" <c:if test="${position.positionClass == 2 }">selected</c:if>>技术</option>
+							<option value="3" <c:if test="${position.positionClass == 3 }">selected</c:if>>实施</option>						
 						 </select>
 					</td>
                 </tr>
@@ -62,22 +62,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </select>
                     </td>
                 </tr>
-				
-				<tr>
-                    <td>菜单权限<span style="color:red">*</span>：</td>
-                    <td>
-                        <input type="checkbox"/>个人信息<br/>
-					&nbsp;&nbsp;&nbsp;<input type="checkbox"/>个人信息修改<br/>
-					&nbsp;&nbsp;&nbsp;<input type="checkbox"/>密码修改<br/>
-					<input type="checkbox"/>薪酬管理<br/>
-					&nbsp;&nbsp;&nbsp;<input type="checkbox" />薪酬标准管理<br/>
-					&nbsp;&nbsp;&nbsp;<input type="checkbox"/>薪酬标准审批<br/>
-					&nbsp;&nbsp;&nbsp;<input type="checkbox"/>薪酬发放管理<br/>
-						 
-                    </td>
-                </tr>
-
-
 				<tr>
                     <td>职位描述<span style="color:red">*</span>：</td>
                     <td>
@@ -95,8 +79,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <td>是否启用：</td>
                     <td>
                         <select name="positionState">
-							<option value="1">启用</option>
-							<option value="2">禁用</option>						
+							<option value="1" <c:if test="${position.positionState == 1 }">selected</c:if>>启用</option>
+							<option value="2" <c:if test="${position.positionState == 2 }">selected</c:if>>禁用</option>						
 						 </select>
                     </td>                
                 </tr>

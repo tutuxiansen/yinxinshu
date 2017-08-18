@@ -12,7 +12,11 @@ public interface MenuService {
 	
 	public void update(MenuBean menu);
 	
+	public List<MenuBean> menuAlls();
+	
 	public void delete(int menu);
+	
+	public List<MenuBean> menuAll();
 	
 	public List<MenuBean> queryAll();
 	

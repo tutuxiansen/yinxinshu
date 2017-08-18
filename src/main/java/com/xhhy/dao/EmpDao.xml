@@ -4,128 +4,168 @@
 <mapper namespace="com.xhhy.dao.EmpDao">
 
 	<sql id="all">
-		data_id,emp_id,emp_name,emp_gender,emp_position,emp_positional,emp_tel,
-		emp_record_state,create_year,create_month,create_day,dept_name,emp_education
+		rs.pema_id,jl.resume_id,jl.resume_name,jl.resume_gender,jl.resume_position,jl.resume_class,jl.resume_phone,
+		rs.pema_interview,rs.pema_time,jl.resume_dept,jl.resume_education
 	</sql>
 
-	<resultMap id="emp" type="com.xhhy.domain.EmpBean">
-		<id property="dataId" column="data_id" />
-		<result property="deptName" column="dept_name" />
-		<result property="empId" column="emp_id" />
-		<result property="empName" column="emp_name" />
-		<result property="empGender" column="emp_gender" />
-		<result property="empPosition" column="emp_position" />
-		<result property="empPositonal" column="emp_positional" />
-		<result property="empTel" column="emp_tel" />
-		<result property="empRecordState" column="emp_record_state" />
-		<result property="createYear" column="create_year" />
-		<result property="createMonth" column="create_month" />
-		<result property="createDay" column="create_day" />
-		<result property="empEducation" column="emp_education" />
+	<resultMap type="com.xhhy.domain.PemaBean" id="pema">
+		<id property="pemaId" column="pema_id" />
+		<result property="pemaCode" column="pema_code" />
+		<result property="pemaResumeId" column="pema_resume_id" />
+		<result property="pemaType" column="pema_type" />
+		<result property="pemaInterview" column="pema_interview" />
+		<result property="pemaMoney" column="pema_money" />
+		<result property="pemaBank" column="pema_bank" />
+		<result property="pemaBankid" column="pema_bankid" />
+		<result property="pemaInsuranceid" column="pema_Insuranceid" />
+		<result property="pemaReg" column="pema_reg" />
+		<result property="pemaTime" column="pema_time" />
+		<result property="pemaFamily" column="pema_family" />
+		<result property="pemaRemark" column="pema_remark" />
+		<result property="pemaLjsc" column="pema_ljsc" />
+
+		<!-- <result property="pema_Resume" column="pema_resume_id"/> -->
+		<association property="pema_resume" javaType="com.xhhy.domain.ResumeBean">
+			<id property="resumeId" column="resume_id" />
+			<result property="resumeDept" javaType="String" column="resume_dept"
+				jdbcType="VARCHAR" />
+			<result property="resumePosition" javaType="String" column="resume_position"
+				jdbcType="VARCHAR" />
+			<result property="resumeCode" javaType="String" column="resume_code"
+				jdbcType="VARCHAR" />
+			<result property="resumeClass" javaType="String" column="resume_class"
+				jdbcType="VARCHAR" />
+			<result property="resumeName" javaType="String" column="resume_name"
+				jdbcType="VARCHAR" />
+			<result property="resumeGender" javaType="String" column="resume_gender"
+				jdbcType="VARCHAR" />
+			<result property="resumeType" column="resume_type" />
+			<result property="resumeEmail" javaType="String" column="resume_email"
+				jdbcType="VARCHAR" />
+			<result property="resumePhone" column="resume_phone" />
+			<result property="resumeAddress" javaType="String" column="resume_address"
+				jdbcType="VARCHAR" />
+			<result property="resumeIdentity" javaType="String" column="resume_identity"
+				jdbcType="VARCHAR" />
+			<result property="resumeIdnumber" javaType="String" column="resume_idnumber"
+				jdbcType="VARCHAR" />
+			<result property="resumeCollege" javaType="String" column="resume_college"
+				jdbcType="VARCHAR" />
+			<result property="resumeEducation" javaType="String" column="resume_education"
+				jdbcType="VARCHAR" />
+			<result property="resumeMajor" javaType="String" column="resume_major"
+				jdbcType="VARCHAR" />
+			<result property="resumeExperience" javaType="String"
+				column="resume_experience" jdbcType="VARCHAR" />
+			<result property="resumeResume" javaType="String" column="resume_resume"
+				jdbcType="VARCHAR" />
+			<result property="interviewType" column="interview_type" />
+		</association>
 	</resultMap>
 
-	<!-- 根据姓名查询 -->
-	<select id="queryByIf" parameterType="EmpBean" resultMap="emp">
-		select
-		<include refid="all"></include>
-		from EMP_DETAILS_TB where 1 = 1
-		<if test="deptName!= null and deptName!= ''">
-			and dept_name = #{deptName}
-		</if>
-		<if test="empName!= null and empName!= ''">
-			and emp_name like '%${empName}%'
-		</if>
-		<if test="empRecordState!= null and empRecordState!= ''">
-			and emp_record_state = #{empRecordState}
-		</if>
-		
-		<!-- <if test="createRecordTime!= null and createRecordTime!= ''"> and 
-			create_record_time between #{createRecordTimeOne} and #{createRecordTimeTwo} 
-			</if> -->
-			
-	</select>
+	<!-- 根据姓名查询 <select id="queryByIf" parameterType="PemaBean" resultMap="emp"> 
+		select <include refid="all"></include> from EMP_DETAILS_TB where 1 = 1 <if 
+		test="resumeName!= null and resumeName!= ''"> and dept_name = #{resumeName} 
+		</if> <if test="empName!= null and empName!= ''"> and emp_name like '%${empName}%' 
+		</if> <if test="empRecordState!= null and empRecordState!= ''"> and emp_record_state 
+		= #{empRecordState} </if> <if test="createRecordTime!= null and createRecordTime!= 
+		''"> and create_record_time between #{createRecordTimeOne} and #{createRecordTimeTwo} 
+		</if> </select> -->
 
 	<!-- 查询全部 -->
-	<select id="queryAll" resultMap="emp">
+	<select id="queryAll" resultMap="pema">
+		<!-- select <include refid="all" /> from pema_tb,resume_tb -->
+
 		select
 		<include refid="all" />
-		from EMP_DETAILS_TB
+		from pema_tb rs left join resume_tb jl on
+		rs.pema_resume_id=jl.resume_id
+
 	</select>
 
 
-	<select id="queryCount" parameterType="EmpBean" resultType="int">
-		select count(1) from EMP_DETAILS_TB
+	<select id="queryCount" parameterType="PemaBean" resultType="int">
+		select count(1) from pema_tb,resume_tb
 		<where>
-			<if test="empName!= null and emp!= ''">
-				emp_name like '%${empName}%'
+			<if test="pema_resume != null">
+				<if test="pema_resume.resumeName!= null and pema_resume.resumeName!= ''">
+					resume_tb.resume_name like '%${pema_resume.resumeName}%'
+				</if>
 			</if>
 		</where>
 	</select>
 
 	<!-- 查询所有 -->
-	<select id="queryEmpByPageUtil" parameterType="List" resultMap="emp">
+	<select id="queryEmpByPageUtil" parameterType="List" resultMap="pema">
 		select
 		<include refid="all" />
-		from EMP_DETAILS_TB where data_id between #{startNum} and #{endNum}
+		from pema_tb rs left join resume_tb jl on
+		rs.pema_resume_id=jl.resume_id
 	</select>
 
 
-
-	<select id="queryEmpByMap" parameterType="map" resultMap="emp">
+	<!-- where pema_id between #{startNum} and #{endNum} -->
+	<select id="queryEmpByMap" parameterType="map" resultMap="pema">
 		select
 		<include refid="all" />
-		from EMP_DETAILS_TB
+		from pema_tb rs left join resume_tb jl on
+		rs.pema_resume_id=jl.resume_id
 		<where>
 			<if test="deptName!= null and deptName!= ''">
-				and dept_name = #{deptName}
+				and jl.resume_dept = #{deptName}
 			</if>
 			<if test="empName!= null and empName!= ''">
-				and emp_name like '%${empName}%'
+				and jl.resume_name like '%${empName}%'
 			</if>
-			<if test="empRecordState!= null and empRecordState!= ''">
-				and emp_record_state = #{empRecordState}
+			<if test="recordState!= null and recordState!= ''">
+				and rs.pema_interview = #{recordState}
 			</if>
 		</where>
 	</select>
 
 	<select id="queryEmpByEducation" parameterType="map" resultType="Map">
 		select
-			create_year as "YEAR",
-			count(*) as "ALL_MANS",
-			sum(case when emp_education = '专科' then 1 else 0 end) as "ZK",
-			sum(case when emp_education = '本科' then 1 else 0 end) as "BK",
-			sum(case when emp_education = '博士' then 1 else 0 end) as "BS",
-			sum(case when emp_education = '硕士' then 1 else 0 end) as "SS"
-		from EMP_DETAILS_TB 
-		<!-- TODO:修改下拉查询 -->
+		Substr( replace(pema_time ,'/',''),1,4) as "YEAR",
+		count(1) as
+		"ALL_MANS",
+		sum(case when jl.resume_education = '专科' then 1 else 0 end)
+		as "ZK",
+		sum(case when jl.resume_education = '本科' then 1 else 0 end) as
+		"BK",
+		sum(case when jl.resume_education = '博士' then 1 else 0 end) as
+		"BS",
+		sum(case when jl.resume_education = '硕士' then 1 else 0 end) as
+		"SS"
+		from pema_tb rs left join resume_tb jl on
+		rs.pema_resume_id=jl.resume_id
+
 		<if test="year != null and year!= '' and year!= 0">
-			where  create_year = #{year}
+			where rs.pema_time = #{year}
 		</if>
-			group by create_year
-			order by create_year desc
+		group by Substr(replace(pema_time ,'/',''),1,4)
+		order by
+		Substr(replace(pema_time ,'/',''),1,4) desc
 	</select>
-	
-	
-	<select id="queryEmpByEducationShowDept" parameterType="map" resultType="Map">
-		select
-			dept_name as "DEPT",
-			count(*) as "ALL_MANS",
-			sum(case when emp_education = '专科' then 1 else 0 end) as "ZK",
-			sum(case when emp_education = '本科' then 1 else 0 end) as "BK",
-			sum(case when emp_education = '博士' then 1 else 0 end) as "BS",
-			sum(case when emp_education = '硕士' then 1 else 0 end) as "SS"
-		from EMP_DETAILS_TB where create_year = #{year}
-		<!-- TODO:修改下拉查询 -->
-		<if test="deptName!= null and deptName!= ''">
-			and dept_name = #{deptName}
-		</if>
-			group by dept_name
+
+	<select id="queryEmpByEducationShowDept" parameterType="map"
+		resultType="Map">
+		select jl.resume_dept as "DEPT", count(*) as "ALL_MANS", 
+		sum(case when jl.resume_education= '专科' then 1 else 0 end) as "ZK", 
+		sum(case when jl.resume_education = '本科' then 1 else 0 end) as "BK",
+		sum(case when jl.resume_education = '博士' then 1 else 0 end) as "BS",
+		sum(case when jl.resume_education = '硕士' then 1 else 0 end) as "SS"
+		from pema_tb rs left join resume_tb jl on rs.pema_resume_id=jl.resume_id
+		
+		where rs.pema_time like '%${year}%' 
+		<if test="resumeDept!= null and resumeDept!= ''"> 
+			and jl.resume_dept = #{resumeDept} </if>
+		group by jl.resume_dept
 	</select>
-	
-	
-	<select id="queryEmpByDept" parameterType="EmpBean" resultMap="emp">
+
+	<select id="queryEmpByDept" parameterType="PemaBean" resultMap="pema">
 		select
 		<include refid="all"></include>
-		from EMP_DETAILS_TB where dept_name = #{deptName} and create_year = #{createYear}
+		from pema_tb rs left join resume_tb jl on rs.pema_resume_id=jl.resume_id
+		where jl.resume_dept = #{pema_resume.resumeDept} and rs.pema_time like '%${pemaTime}%'
 	</select>
 </mapper>

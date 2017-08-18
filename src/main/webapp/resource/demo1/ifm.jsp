@@ -19,7 +19,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <title>启明星辰人力资源管理V1.0</title>
     </head>
 		<frameset cols="170, *">
-                <frame name=left src="/yinxinshu/dept/list.do"  frameborder=0 noresize />
+                <frame name=left src="dept/list.do"  frameborder=0 noresize />
                 <frame name=main_right src="resource/demo1/wecom.jsp" frameborder=0 noresize scrolling=yes />
 		</frameset>		
     <noframes>	

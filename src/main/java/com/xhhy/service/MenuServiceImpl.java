@@ -56,6 +56,14 @@ public class MenuServiceImpl implements MenuService {
 		return md.queryByTop();
 	}
 
+	public List<MenuBean> menuAll() {
+		return md.menuAll();
+	}
+
+	public List<MenuBean> menuAlls() {
+		return md.menuAlls();
+	}
+
 	
 	
 }

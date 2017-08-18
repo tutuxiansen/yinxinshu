@@ -39,11 +39,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <tr>
                     <td>上级菜单<span style="color:red">*</span>：</td>
                     <td>
-                       <select name="menuTop">
-        	<c:forEach items="${menus }" var="menu">
-        		<option value="${menu.menuId}" <c:if test="${menu.top.menuId == menu.menuId }">selected</c:if>>${menu.menuName }</option>
+                     <select name="menuTop">
+        	<c:forEach items="${menuTops }" var="menuTop">
+        		<option  value="${menuTop.menuId }" <c:if test="${menu.top.menuId == menuTop.menuId }">selected</c:if>>${menuTop.menuName }</option>
         	</c:forEach>
         	</select>
+                     
                     </td>
                 </tr>
 				  <tr>
@@ -57,8 +58,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <td>状态<span style="color:red">*</span>：</td>
                     <td>
 						 <select name="menuState">
-							<option value="1">启用</option>
-							<option value="2">禁用</option>						
+							<option value="1" <c:if test="${menu.menuState == 1 }">selected</c:if>>启用</option>
+							<option value="2" <c:if test="${menu.menuState == 2 }">selected</c:if>>禁用</option>						
 						 </select>
 					</td>
                 </tr>
@@ -75,7 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <tr>
                     <td colspan="2" align="center">
                         <input type="submit" value="添加">
-						<input type="submit" value="清空">
+						<input type="reset" value="清空">
                     </td>
                 </tr>  
             </table>

@@ -38,19 +38,19 @@
 			<form action="emp/queryByIf.do" method="post">
 				部门: <select name = "select">
 					<option>--请选择---</option>
-					<option value = "产品设计中心"<c:if test="${map.deptName == '产品设计中心'}"> selected = "selected"</c:if>>产品设计中心</option>
-					<option value = "平台研发中心"<c:if test="${map.deptName == '平台研发中心'}"> selected = "selected"</c:if>>平台研发中心</option>
-					<option value = "人力资源中心"<c:if test="${map.deptName == '人力资源中心'}"> selected = "selected"</c:if>>人力资源中心</option>
-					<option value = "财务部"<c:if test="${map.deptName == '财务部'}"> selected = "selected"</c:if>>财务部</option>
+					<option value = "产品设计中心"<c:if test="${map.pema_resume.resumeName == '产品设计中心'}"> selected = "selected"</c:if>>产品设计中心</option>
+					<option value = "平台研发中心"<c:if test="${map.pema_resume.resumeName == '平台研发中心'}"> selected = "selected"</c:if>>平台研发中心</option>
+					<option value = "人力资源中心"<c:if test="${map.pema_resume.resumeName == '人力资源中心'}"> selected = "selected"</c:if>>人力资源中心</option>
+					<option value = "财务部"<c:if test="${map.pema_resume.resumeName == '财务部'}"> selected = "selected"</c:if>>财务部</option>
 					
 					</select > 
-					员工姓名：<input  name = "empName" type="text" value="${map.empName}"/> 
+					员工姓名：<input  name = "resumeName" type="text" value="${map.pema_resume.resumeName}"/> 
 					档案状态： <select name = "recordState">
 					<option>--请选择---</option>
-					<option <c:if test="${map.empRecordState == '试用期'}"> selected = "selected"</c:if>>试用期</option>
-					<option <c:if test="${map.empRecordState == '正式员工'}"> selected = "selected"</c:if>>正式员工</option>
-					<option <c:if test="${map.empRecordState == '离职'}"> selected = "selected"</c:if>>离职</option>
-					<option <c:if test="${map.empRecordState == '已删除'}"> selected = "selected"</c:if>>已删除</option>
+					<option <c:if test="${map.pemaInterview == 6}"> selected = "selected"</c:if>>试用期</option>
+					<option <c:if test="${map.pemaInterview == 8}"> selected = "selected"</c:if>>正式员工</option>
+					<option <c:if test="${map.pemaInterview == 9}"> selected = "selected"</c:if>>离职</option>
+					<option <c:if test="${map.pemaInterview == 10}"> selected = "selected"</c:if>>已删除</option>
 
 				</select> 建档时间: <input name = "createTimeOne" type="text" /> 至 <input name = "createTimeTwo" type="text" /> 
 				<input value="查询" type="submit" />
@@ -75,27 +75,46 @@
 
 				<c:forEach items="${emps}" var ="emp">
 					<tr id="product1">
-						<td rowspan="1">${emp.deptName}</td>
-						<td>${emp.empId}</td>
-						<td>${emp.empName}</td>
-						<td>${emp.empGender}</td>
-						<td>${emp.empPosition}</td>
-						<td>${emp.empPositonal}</td>
-						<td>${emp.empTel}</td>
-						<td>${emp.empRecordState}</td>
-						<td>${emp.createYear}+"-"+${emp.createMonth}+"-"+${emp.createDay}</td>
+						<td rowspan="1">${emp.pema_resume.resumeName}</td>
+						<td>${emp.pemaResumeId}</td>
+						<td>${emp.pema_resume.resumeName}</td>
+						<td>${emp.pema_resume.resumeGender}</td>
+						<td>${emp.pema_resume.resumePosition}</td>
+						<td>${emp.pema_resume.resumeClass}</td>
+						<td>${emp.pema_resume.resumePhone}</td>
+						<td>${interView}</td>
+						<td>${emp.pemaTime}</td>
 					</tr>
 				</c:forEach>
 				<tr>
 					<td colspan="20" style="text-align: center;">
-					<a style="text-decoration: none;" href="#">
-					<a href="emp/queryAll.do?nowPage=1&userName=${emp.empName }">首页</a>&nbsp;&nbsp;&nbsp;&nbsp;
-					<a href="emp/queryByIf.do?nowPage=${pageUtil.nowPage - 1 }&empName=${emp.empName}">上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
-					 ... 7 8 9 10 11 12 ... 
-					<a href="emp/queryByIf.do?nowPage=${pageUtil.nowPage + 1 }&empName=${emp.empName}">下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
-					<a href="emp/queryAll.do?nowPage=${pageUtil.totalPage }&empName=${emp.empName}">尾页</a>&nbsp;&nbsp;&nbsp;&nbsp; 
+					<c:if test="${pageUtil.nowPage > 1}">
+						<a href="emp/queryByIf.do?nowPage=1&userName=${emp.pema_resume.resumeName }">首页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+					</c:if>
+					<c:if test="${pageUtil.nowPage <= 1}">
+						首页&nbsp;&nbsp;&nbsp;&nbsp;
+					</c:if>
+					<c:if test="${pageUtil.nowPage > 1}">
+						<a href="emp/queryByIf.do?nowPage=${pageUtil.nowPage - 1 }&empName=${emp.pema_resume.resumeName}">上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+					</c:if>
+					<c:if test="${pageUtil.nowPage <= 1}">
+						上一页&nbsp;&nbsp;&nbsp;&nbsp;
+					</c:if>
+					<c:if test="${pageUtil.nowPage < pageUtil.totalPage}">
+						<a href="emp/queryByIf.do?nowPage=${pageUtil.nowPage + 1 }&empName=${emp.pema_resume.resumeName}">下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+					</c:if>
+					<c:if test="${pageUtil.nowPage >= pageUtil.totalPage}">
+						下一页&nbsp;&nbsp;&nbsp;&nbsp;
+					</c:if>
+					
+					<c:if test="${pageUtil.nowPage < pageUtil.totalPage}">
+						<a href="emp/queryByIf.do?nowPage=${pageUtil.totalPage }&empName=${emp.pema_resume.resumeName}">尾页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+					</c:if>
+					<c:if test="${pageUtil.nowPage >= pageUtil.totalPage}">
+						尾页&nbsp;&nbsp;&nbsp;&nbsp;
+					</c:if>
 					共${pageUtil.totalCount }条 每页显示${pageUtil.pageSize }&nbsp;  
-					 ${pageUtil.nowPage }/${pageUtil.totalPage } </a></td>
+					 ${pageUtil.nowPage }/${pageUtil.totalPage }</td>
 				</tr>
 			</tbody>
 		</table>

@@ -72,9 +72,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                        
 						<select name="deptId">
         	<c:forEach items="${depts }" var="dept">
-        		<option value="${dept.deptId }" <c:if test="${position.deptBean.deptId == dept.deptId }">selected</c:if>>${dept.deptSimplicityName }</option>
+        		<option value="${dept.deptId }" <c:if test="${user.deptBean.deptId == dept.deptId }">selected</c:if>>${dept.deptSimplicityName }</option>
         	</c:forEach>
         </select>
+        
                     </td>                
                 </tr>
 

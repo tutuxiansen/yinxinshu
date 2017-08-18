@@ -22,9 +22,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <span>
                 <span style="float:left">当前位置是：-系统管理》部门管理</span>
                 <span style="float:right;margin-right: 8px;font-weight: bold">
-				    <a style="text-decoration: none" href="/yinxinshu/dept/preUpdate.do?id=38">【修改】</a>					
+				    <a style="text-decoration: none" href="/yinxinshu/dept/preUpdate.do?id=${dept.deptId }">【修改】</a>					
 					<a style="text-decoration: none" href="/yinxinshu/dept/preAdd.do">【添加子部门】</a>					
-					<a style="text-decoration: none" href="list.jsp">【删除】</a>
+					<a style="text-decoration: none" href="/yinxinshu/dept/delete.do?id=${dept.deptId }">【删除】</a>
                 </span>
             </span>
         </div>
